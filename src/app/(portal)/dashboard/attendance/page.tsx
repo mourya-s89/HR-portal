@@ -106,7 +106,7 @@ export default function AttendancePage() {
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
             if (!res.ok) throw new Error("Nominatim blocked/failed");
             const data = await res.json();
-            const address = data.display_name?.split(",").slice(0, 4).join(",") || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            const address = data.display_name || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
             setLocationLabel(address);
             resolve({ lat, lng, address });
           } catch {
@@ -126,7 +126,7 @@ export default function AttendancePage() {
         () => {
           fallbackLocation().then(resolve).catch(() => reject(new Error("Location access denied or failed.")));
         },
-        { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
       );
     });
 
