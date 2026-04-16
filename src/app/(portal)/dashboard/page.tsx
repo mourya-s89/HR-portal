@@ -1,0 +1,310 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import {
+  Clock, Calendar, AlertCircle, CheckCircle2,
+  TrendingUp, ArrowUpRight, Megaphone,
+  Briefcase, Coffee, Video
+} from "lucide-react";
+import { cn, formatTime } from "@/lib/utils";
+import Link from "next/link";
+
+// Sparkline SVG component for KPI cards
+function Sparkline({ color }: { color: string }) {
+  return (
+    <svg className="absolute bottom-0 left-0 w-full h-12 opacity-20 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 30">
+      <path d="M0,30 Q20,10 40,20 T70,5 T100,20 L100,30 L0,30 Z" fill={color} />
+      <path d="M0,30 Q20,10 40,20 T70,5 T100,20" fill="none" stroke={color} strokeWidth="2" />
+    </svg>
+  );
+}
+
+// Progress Ring SVG
+function CircularProgress({ percentage, label, sublabel }: { percentage: number, label: string, sublabel: string }) {
+  const radius = 46;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="relative flex flex-col items-center justify-center">
+      <svg className="w-36 h-36 transform -rotate-90">
+        <circle cx="72" cy="72" r={radius} stroke="currentColor" strokeWidth="8" fill="transparent" className="text-slate-200" />
+        <circle 
+          cx="72" cy="72" r={radius} 
+          stroke="url(#gradient)" strokeWidth="8" fill="transparent" 
+          strokeDasharray={circumference} 
+          strokeDashoffset={strokeDashoffset} 
+          className="text-indigo-500 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)] transition-all duration-1000 ease-out" 
+          strokeLinecap="round" 
+        />
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#818cf8" />
+            <stop offset="100%" stopColor="#38bdf8" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div className="absolute flex flex-col items-center justify-center text-center">
+        <span className="text-2xl font-black text-slate-800">{label}</span>
+        <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{sublabel}</span>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ title, value, subValue, icon: Icon, trend, color, hexColor }: any) {
+  return (
+    <div className="bg-white/70 backdrop-blur-xl p-6 rounded-[24px] border border-slate-200/70 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-slate-300 transition-all duration-300 relative overflow-hidden group">
+      {/* Background soft glow */}
+      <div className={cn("absolute -top-10 -right-10 w-32 h-32 blur-[50px] rounded-full opacity-20 transition-opacity group-hover:opacity-40", color.replace("text-", "bg-"))} />
+      
+      <Sparkline color={hexColor} />
+      
+      <div className="flex items-start justify-between relative z-10">
+        <div className="space-y-1">
+          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">{title}</p>
+          <p className="text-3xl font-extrabold text-slate-900 tracking-tight">{value}</p>
+          {subValue && <p className="text-[11px] text-slate-400 font-medium">{subValue}</p>}
+          {trend && (
+             <div className="flex items-center gap-1 mt-3 text-[10px] font-extrabold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-1 rounded-full w-fit tracking-wide">
+                <ArrowUpRight className="w-3 h-3" />
+                {trend}
+             </div>
+          )}
+        </div>
+        <div className={cn("p-3.5 rounded-[18px] bg-white shadow-sm ring-1 ring-slate-100", color)}>
+          <Icon className="w-5 h-5" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Dashboard() {
+  const { data: session } = useSession();
+  const [stats] = useState({ presentDays: 18, absentDays: 1, lopDays: 0.5, clBalance: 1 });
+  const [today, setToday] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      try {
+        const res = await fetch("/api/attendance");
+        const data = await res.json();
+        if (data.today) setToday(data.today);
+      } catch (error) {}
+    };
+    fetchAttendance();
+  }, []);
+
+  // Time based greeting
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : "Good Evening";
+
+  return (
+    <div className="space-y-8 animate-fade-in-up pb-12">
+      {/* Top Hero Section */}
+      <div className="relative rounded-[32px] bg-white p-8 md:p-12 border border-slate-200/60 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        {/* Animated Mesh Gradient Background */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-indigo-400 via-purple-300 to-cyan-300 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/3 animate-pulse" style={{ animationDuration: '8s' }} />
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-sky-300 to-indigo-200 blur-[80px] rounded-full translate-y-1/3 -translate-x-1/4" />
+        </div>
+        
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="space-y-3">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+              {greeting}, <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500">{session?.user?.name?.split(' ')[0] || 'User'} 👋</span>
+            </h1>
+            <p className="text-slate-600 font-semibold md:text-base flex items-center gap-2 mt-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              You are <span className="text-slate-900 font-extrabold">92% consistent</span> this month. Keep up the momentum!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* KPI Cards Row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard title="Days Present" value={stats.presentDays} subValue="Current month" icon={CheckCircle2} trend="+12% vs Last" color="text-emerald-600" hexColor="#10b981" />
+        <StatCard title="Late Deductions" value={stats.lopDays} subValue="Half-days applied" icon={AlertCircle} color="text-rose-500" hexColor="#f43f5e" />
+        <StatCard title="Leaves Balance" value={stats.clBalance} subValue="Available PTO" icon={Calendar} color="text-indigo-500" hexColor="#6366f1" />
+        <StatCard title="Performance" value="9.2" subValue="Top 5% of company" icon={TrendingUp} trend="+0.4 Pts" color="text-amber-500" hexColor="#f59e0b" />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Col: Work Log Panel */}
+        <div className="lg:col-span-2 space-y-8">
+           <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 md:p-10 border border-slate-200/60 shadow-sm relative overflow-hidden">
+             
+             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+                <h2 className="text-xl font-extrabold text-slate-900 flex items-center gap-3">
+                  <span className="p-2.5 bg-indigo-50 rounded-[14px]"><Briefcase className="w-5 h-5 text-indigo-600" /></span>
+                  Work Log
+                </h2>
+                <div className="flex items-center gap-2 w-fit px-3.5 py-1.5 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-extrabold uppercase tracking-widest ring-1 ring-emerald-200/50 shadow-sm">
+                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse-dot" />
+                   {today?.checkIn && !today?.checkOut ? "Live — Checked In" : today?.checkOut ? "Shift Completed" : "Not Checked In"}
+                </div>
+             </div>
+
+             <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                {/* Timeline */}
+                <div className="md:col-span-3 space-y-2">
+                  <div className="relative pl-7 border-l-2 border-slate-100 ml-2">
+                    
+                    <div className="relative mb-10 group">
+                      <div className={cn("absolute -left-[37px] top-1 w-[18px] h-[18px] rounded-full border-4 border-white shadow-sm ring-1 ring-slate-200 transition-colors", today?.checkIn ? "bg-emerald-500" : "bg-slate-200 group-hover:bg-indigo-300")} />
+                      <p className="text-[15px] font-extrabold text-slate-900 tracking-tight">Check In</p>
+                      <p className="text-xs font-semibold text-slate-500 mt-1">{today?.checkIn ? formatTime(today.checkIn) : "Awaiting check-in..."}</p>
+                      {today?.checkInLocation && (
+                        <p className="text-[11px] text-slate-400 font-medium mt-1.5 max-w-[280px] truncate flex items-center gap-1" title={today.checkInLocation.address}>
+                          <span className="text-emerald-500">📍</span> {today.checkInLocation.address}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="relative mb-10">
+                      <div className="absolute -left-[37px] top-1 w-[18px] h-[18px] rounded-full border-4 border-white bg-slate-200 shadow-sm ring-1 ring-slate-200" />
+                      <p className="text-[15px] font-extrabold text-slate-900 tracking-tight">Lunch Break</p>
+                      <p className="text-xs font-semibold text-slate-400 mt-1">Usually 1:00 PM — 2:00 PM</p>
+                    </div>
+
+                    <div className="relative group">
+                      <div className={cn("absolute -left-[37px] top-1 w-[18px] h-[18px] rounded-full border-4 border-white shadow-sm ring-1 ring-slate-200 transition-colors", today?.checkOut ? "bg-rose-500" : "bg-slate-200 group-hover:bg-rose-300")} />
+                      <p className="text-[15px] font-extrabold text-slate-900 tracking-tight">Check Out</p>
+                      <p className="text-xs font-semibold text-slate-500 mt-1">{today?.checkOut ? formatTime(today.checkOut) : "Pending"}</p>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Status Ring & Action */}
+                <div className="md:col-span-2 flex flex-col items-center justify-center p-8 bg-slate-50/70 rounded-[28px] border border-slate-100">
+                   <CircularProgress 
+                      percentage={today?.checkOut ? 100 : today?.checkIn ? 65 : 0} 
+                      label={today?.totalHours ? `${today.totalHours}h` : today?.checkIn ? "5.2h" : "0h"} 
+                      sublabel="Working Hours" 
+                   />
+                   
+                   <div className="mt-8 w-full">
+                      {today?.checkIn && !today?.checkOut ? (
+                        <Link href="/dashboard/attendance" className="w-full py-4 rounded-[18px] flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 to-red-500 text-white font-extrabold shadow-[0_8px_16px_-6px_rgba(244,63,94,0.4)] hover:shadow-[0_12px_20px_-6px_rgba(244,63,94,0.5)] hover:-translate-y-0.5 transition-all text-sm tracking-wide">
+                          Check Out 
+                          <span className="flex h-2 w-2 relative ml-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                          </span>
+                        </Link>
+                      ) : (
+                        <Link href="/dashboard/attendance" className={cn(
+                           "w-full py-4 rounded-[18px] flex items-center justify-center font-extrabold transition-all tracking-wide text-sm",
+                           !today?.checkIn 
+                             ? "bg-slate-900 text-white shadow-lg hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-xl" 
+                             : "bg-slate-200 text-slate-400 pointer-events-none"
+                        )}>
+                           {today?.checkOut ? "Shift Completed" : "Check In First"}
+                        </Link>
+                      )}
+                   </div>
+                </div>
+             </div>
+           </div>
+
+           {/* Announcements */}
+           <div className="space-y-6 pt-2">
+              <h2 className="text-xl font-extrabold flex items-center gap-3 text-slate-900">
+                 <span className="p-2.5 bg-violet-50 rounded-[14px]"><Megaphone className="w-5 h-5 text-violet-600" /></span>
+                 Announcements
+              </h2>
+              <div className="space-y-4">
+                 <div className="p-6 rounded-[24px] bg-white border border-slate-200/60 shadow-sm hover:shadow-md hover:border-violet-200 transition-all group cursor-pointer">
+                    <div className="flex items-start justify-between gap-6">
+                       <div className="space-y-2">
+                          <p className="text-sm font-extrabold text-slate-900 group-hover:text-violet-600 transition-colors leading-snug">Quarterly Performance Reviews - Q1 2024</p>
+                          <p className="text-[13px] font-medium text-slate-500 leading-relaxed max-w-[90%]">Reviews will begin from next Monday. Please ensure your personal goals are submitted to HR.</p>
+                       </div>
+                       <span className="shrink-0 px-3 py-1 rounded-full bg-rose-50 border border-rose-100 text-rose-600 text-[10px] font-black uppercase tracking-widest mt-1">Urgent</span>
+                    </div>
+                 </div>
+                 <div className="p-6 rounded-[24px] bg-white border border-slate-200/60 shadow-sm hover:shadow-md hover:border-sky-200 transition-all group cursor-pointer">
+                    <div className="flex items-start justify-between gap-6">
+                       <div className="space-y-2">
+                          <p className="text-sm font-extrabold text-slate-900 group-hover:text-sky-600 transition-colors leading-snug">Office Holiday: Festive Season approaching</p>
+                          <p className="text-[13px] font-medium text-slate-500 leading-relaxed max-w-[90%]">The office will be closed on Friday. Enjoy your long weekend and stay safe!</p>
+                       </div>
+                       <span className="shrink-0 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-sky-600 text-[10px] font-black uppercase tracking-widest mt-1">Info</span>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        {/* Right Col: Focus Panel */}
+        <div className="space-y-6">
+           <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm flex flex-col h-full relative overflow-hidden group hover:border-indigo-200 transition-colors duration-500">
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-400 to-sky-400 opacity-80 group-hover:opacity-100 transition-opacity" />
+              
+              <div className="flex items-center justify-between mb-8">
+                 <h2 className="text-lg font-extrabold text-slate-900">Focus Panel</h2>
+                 <span className="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-[10px] text-[10px] font-black uppercase tracking-widest">Active</span>
+              </div>
+
+              {/* Next Meeting */}
+              <div className="p-6 rounded-[24px] bg-indigo-600 text-white shadow-[0_12px_24px_-8px_rgba(79,70,229,0.4)] hover:shadow-[0_16px_32px_-8px_rgba(79,70,229,0.6)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden mb-8 cursor-pointer">
+                 <div className="absolute -right-6 -top-4 opacity-[0.15] rotate-12"><Video className="w-32 h-32" /></div>
+                 <p className="text-[10px] font-black uppercase tracking-widest text-indigo-200 mb-2">Up Next</p>
+                 <p className="text-[17px] font-extrabold mb-5 relative z-10 leading-snug pr-4">Product Sync with Design Team</p>
+                 <div className="flex items-center justify-between border-t border-indigo-500/50 pt-4">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[11px] font-semibold text-indigo-200">Time</span>
+                      <span className="text-sm font-bold">11:30 AM</span>
+                    </div>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="text-[11px] font-semibold text-indigo-200">Status</span>
+                      <div className="flex items-center gap-1.5 text-sm font-bold text-emerald-300">
+                        <Clock className="w-3.5 h-3.5" /> In 45 mins
+                      </div>
+                    </div>
+                 </div>
+              </div>
+
+              {/* Smart Suggestion */}
+              <div className="p-5 rounded-[22px] bg-gradient-to-br from-sky-50 to-white border border-sky-100/80 shadow-sm mb-8 flex gap-4 items-start relative overflow-hidden">
+                 <div className="absolute -right-2 -bottom-2 opacity-5"><Coffee className="w-16 h-16" /></div>
+                 <div className="p-3 bg-white rounded-[14px] text-sky-500 shadow-sm ring-1 ring-sky-100 shrink-0"><Coffee className="w-5 h-5" /></div>
+                 <div className="relative z-10 pt-1">
+                   <p className="text-[13px] font-extrabold text-slate-900">Smart Suggestion</p>
+                   <p className="text-[12px] font-semibold text-slate-500 mt-1.5 leading-relaxed">You've been focused for 2.5 hours. Time for a quick 10-minute screen break to rest your eyes!</p>
+                 </div>
+              </div>
+
+              <div className="mt-auto space-y-4 pt-8 border-t border-slate-100">
+                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between">
+                   Team Availability
+                   <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded-lg">14 Online</span>
+                 </p>
+                 <div className="flex -space-x-3 overflow-hidden p-1">
+                   {[
+                     { initials: 'MJ', color: 'bg-emerald-500 border-emerald-600' },
+                     { initials: 'AS', color: 'bg-indigo-500 border-indigo-600' },
+                     { initials: 'RK', color: 'bg-rose-500 border-rose-600' },
+                     { initials: 'PL', color: 'bg-amber-500 border-amber-600' },
+                     { initials: 'TK', color: 'bg-sky-500 border-sky-600' },
+                   ].map((t, i) => (
+                     <div key={i} className={`h-11 w-11 rounded-full ring-[3px] ring-white flex items-center justify-center text-[11px] font-black text-white shadow-sm border ${t.color}`}>
+                        {t.initials}
+                     </div>
+                   ))}
+                   <div className="h-11 w-11 rounded-full ring-[3px] ring-white bg-slate-50 flex items-center justify-center text-[12px] font-black text-slate-500 shadow-sm border border-slate-200 cursor-pointer hover:bg-slate-100 transition-colors">
+                      +9
+                   </div>
+                 </div>
+                 <p className="text-[11px] font-semibold text-slate-400 mt-3 pt-2">Almost everyone is online and active right now.</p>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
