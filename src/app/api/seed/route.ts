@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/db";
 import { User } from "@/models/User";
 import { Announcement } from "@/models/Announcement";
@@ -45,6 +45,16 @@ export async function GET() {
         employeeId: "EMP101",
         department: "Engineering",
         designation: "Software Engineer",
+        status: "Active",
+      },
+      {
+        name: "Google Admin",
+        email: "mouryakadali5@gmail.com",
+        password: hashedAdminPassword,
+        role: "Admin",
+        employeeId: "ADM002",
+        department: "Management",
+        designation: "System Administrator",
         status: "Active",
       },
     ];

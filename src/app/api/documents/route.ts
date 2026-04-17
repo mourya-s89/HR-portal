@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import connectToDatabase from "@/lib/db";
@@ -10,9 +10,17 @@ export async function GET(req: Request) {
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     await connectToDatabase();
     const { searchParams } = new URL(req.url);
-    const userId = (session.user as any).role === "Employee" ? (session.user as any).id : searchParams.get("userId") || (session.user as any).id;
+    const role = (session.user as any).role;
+    const userIdParam = searchParams.get("userId");
+    
+    let filter: any = {};
+    if (role === "Employee") {
+      filter.userId = (session.user as any).id;
+    } else if (userIdParam) {
+      filter.userId = userIdParam;
+    }
+
     const category = searchParams.get("category");
-    const filter: any = { userId };
     if (category) filter.category = category;
     // Return only metadata, not file data
     const docs = await HRDocument.find(filter).select("-fileData").sort({ createdAt: -1 }).populate("uploadedBy","name role");

@@ -1,129 +1,95 @@
-﻿"use client";
-import { useState } from "react";
+"use client";
+import { useState, Suspense, useEffect } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { Building2, Mail, Lock, Loader2, ArrowRight } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+function LoginForm() {
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  // Check for AccessDenied error from Google OAuth
+  useEffect(() => {
+    if (searchParams.get("error") === "AccessDenied") {
+      toast.error("Access Denied: Your email is not registered in the system.");
+      // Clear the error from the URL to prevent repeated toasts
+      router.replace("/login");
+    }
+  }, [searchParams, router]);
 
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        toast.error("Invalid email or password");
-      } else {
-        toast.success("Welcome back!");
-        // Middleware will handle routing, but we can nudge it
-        router.refresh();
-        router.push("/dashboard");
-      }
+      await signIn("google", { callbackUrl: "/dashboard" });
     } catch (error) {
-      toast.error("An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
+      toast.error("An error occurred with Google Login.");
+      setIsGoogleLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
-      {/* Background Orbs */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/20 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-violet-600/20 blur-[120px] rounded-full" />
+    <div className="w-full max-w-md animate-fade-in-up">
+      <div className="mb-12 text-center">
+        <h1 className="text-4xl font-bold text-slate-900 mb-2">Welcome back</h1>
+        <p className="text-slate-500">Sign in to manage your workforce with intelligence</p>
       </div>
 
-      <div className="w-full max-w-md z-10 animate-fade-in-up">
-        {/* Logo Section */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/20 mb-4 transform hover:scale-105 transition-transform">
-            <Building2 className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">HR Portal</h1>
-          <p className="text-slate-400 mt-2">Manage your workforce with intelligence</p>
-        </div>
+      <div className="space-y-6">
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          disabled={isGoogleLoading}
+          className="w-full bg-white border border-slate-200 text-slate-700 font-semibold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-slate-50 hover:border-slate-300 transition-all active:scale-[0.98] shadow-sm"
+        >
+          {isGoogleLoading ? (
+            <Loader2 className="w-6 h-6 animate-spin mx-auto" />
+          ) : (
+            <>
+              <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                <path d="M1 1h22v22H1z" fill="none" />
+              </svg>
+              Continue with Google
+            </>
+          )}
+        </button>
 
-        {/* Card */}
-        <div className="glass-card p-8 rounded-3xl border border-white/10 shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-300 ml-1">Email Address</label>
-              <div className="relative group">
-                <Mail className="absolute left-3 top-3 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@company.com"
-                  className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
-                />
-              </div>
-            </div>
+        <p className="text-center text-slate-400 text-sm px-8">
+          By continuing, you agree to our Terms of Service and Privacy Policy.
+        </p>
+      </div>
 
-            <div className="space-y-2">
-              <div className="flex justify-between items-center ml-1">
-                <label className="text-sm font-medium text-slate-300">Password</label>
-                <a href="#" className="text-xs text-indigo-400 hover:text-indigo-300">Forgot password?</a>
-              </div>
-              <div className="relative group">
-                <Lock className="absolute left-3 top-3 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
-                />
-              </div>
-            </div>
+      <div className="mt-12 pt-8 border-t border-slate-100 text-center">
+        <p className="text-slate-600 text-sm">
+          Need help? <a href="mailto:support@hrportal.com" className="text-indigo-600 font-medium hover:underline">Contact Support</a>
+        </p>
+      </div>
+    </div>
+  );
+}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className={cn(
-                "w-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold py-3 rounded-xl shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 group hover:opacity-90 transition-all active:scale-[0.98]",
-                loading && "opacity-70 pointer-events-none"
-              )}
-            >
-              {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <>
-                  Sign In
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </>
-              )}
-            </button>
-          </form>
+export default function LoginPage() {
+  return (
+    <div className="min-h-screen flex w-full">
+      {/* Left Form Section */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white p-8">
+        <Suspense fallback={<div>Loading...</div>}>
+          <LoginForm />
+        </Suspense>
+      </div>
 
-          <div className="mt-8 pt-6 border-t border-white/5 text-center">
-            <p className="text-xs text-slate-500">
-              By signing in, you agree to the company Terms of Service and Privacy Policy.
-            </p>
-          </div>
-        </div>
-
-        {/* Guest Demo Note */}
-        <div className="mt-8 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-4">
-          <p className="text-xs text-indigo-300 text-center">
-            <span className="font-bold">Demo Mode:</span> Use <b>admin@hrportal.com</b> / <b>Admin@123</b> after running the seed route.
-          </p>
-        </div>
+      {/* Right Illustration Section */}
+      <div className="hidden lg:flex w-1/2 relative items-center justify-center p-12 bg-indigo-50">
+        <img 
+          src="/login-illustration.png" 
+          alt="Login Illustration" 
+          className="max-w-[85%] h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" 
+        />
       </div>
     </div>
   );

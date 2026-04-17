@@ -240,67 +240,66 @@ export default function Dashboard() {
            </div>
         </div>
 
-        {/* Right Col: Focus Panel */}
+        {/* Right Col: Communication Panel */}
         <div className="space-y-6">
            <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm flex flex-col h-full relative overflow-hidden group hover:border-indigo-200 transition-colors duration-500">
-              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-400 to-sky-400 opacity-80 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 via-blue-500 to-green-500 opacity-80 group-hover:opacity-100 transition-opacity" />
               
               <div className="flex items-center justify-between mb-8">
-                 <h2 className="text-lg font-extrabold text-slate-900">Focus Panel</h2>
-                 <span className="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-[10px] text-[10px] font-black uppercase tracking-widest">Active</span>
+                 <h2 className="text-lg font-extrabold text-slate-900">Communication</h2>
+                 <span className="px-3 py-1 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-[10px] text-[10px] font-black uppercase tracking-widest">Connected</span>
               </div>
 
-              {/* Next Meeting */}
-              <div className="p-6 rounded-[24px] bg-indigo-600 text-white shadow-[0_12px_24px_-8px_rgba(79,70,229,0.4)] hover:shadow-[0_16px_32px_-8px_rgba(79,70,229,0.6)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden mb-8 cursor-pointer">
-                 <div className="absolute -right-6 -top-4 opacity-[0.15] rotate-12"><Video className="w-32 h-32" /></div>
-                 <p className="text-[10px] font-black uppercase tracking-widest text-indigo-200 mb-2">Up Next</p>
-                 <p className="text-[17px] font-extrabold mb-5 relative z-10 leading-snug pr-4">Product Sync with Design Team</p>
-                 <div className="flex items-center justify-between border-t border-indigo-500/50 pt-4">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[11px] font-semibold text-indigo-200">Time</span>
-                      <span className="text-sm font-bold">11:30 AM</span>
-                    </div>
-                    <div className="flex flex-col items-end gap-1">
-                      <span className="text-[11px] font-semibold text-indigo-200">Status</span>
-                      <div className="flex items-center gap-1.5 text-sm font-bold text-emerald-300">
-                        <Clock className="w-3.5 h-3.5" /> In 45 mins
-                      </div>
-                    </div>
+              {/* Gmail Link */}
+              <a 
+                href="https://mail.google.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-6 rounded-[24px] bg-white border border-slate-100 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_-8px_rgba(234,67,53,0.3)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden mb-4 group/item flex items-center gap-4"
+              >
+                 <div className="p-3 bg-red-50 rounded-[14px] text-red-500 group-hover/item:bg-red-500 group-hover/item:text-white transition-all">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                      <polyline points="22,6 12,13 2,6" />
+                    </svg>
                  </div>
-              </div>
+                 <div className="flex-1 min-w-0">
+                    <p className="text-[15px] font-extrabold text-slate-900 tracking-tight">Gmail</p>
+                    <p className="text-xs font-semibold text-slate-400 mt-0.5">Check your inbox</p>
+                 </div>
+                 <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover/item:text-red-500 group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all" />
+              </a>
 
-              {/* Smart Suggestion */}
-              <div className="p-5 rounded-[22px] bg-gradient-to-br from-sky-50 to-white border border-sky-100/80 shadow-sm mb-8 flex gap-4 items-start relative overflow-hidden">
-                 <div className="absolute -right-2 -bottom-2 opacity-5"><Coffee className="w-16 h-16" /></div>
-                 <div className="p-3 bg-white rounded-[14px] text-sky-500 shadow-sm ring-1 ring-sky-100 shrink-0"><Coffee className="w-5 h-5" /></div>
-                 <div className="relative z-10 pt-1">
-                   <p className="text-[13px] font-extrabold text-slate-900">Smart Suggestion</p>
-                   <p className="text-[12px] font-semibold text-slate-500 mt-1.5 leading-relaxed">You've been focused for 2.5 hours. Time for a quick 10-minute screen break to rest your eyes!</p>
+              {/* Google Chat Link */}
+              <a 
+                href="https://chat.google.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-6 rounded-[24px] bg-white border border-slate-100 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_-8px_rgba(66,133,244,0.3)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden mb-8 group/item flex items-center gap-4"
+              >
+                 <div className="p-3 bg-blue-50 rounded-[14px] text-blue-500 group-hover/item:bg-blue-500 group-hover/item:text-white transition-all">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2.5 7.5z" />
+                    </svg>
                  </div>
-              </div>
+                 <div className="flex-1 min-w-0">
+                    <p className="text-[15px] font-extrabold text-slate-900 tracking-tight">Google Chat</p>
+                    <p className="text-xs font-semibold text-slate-400 mt-0.5">Message team</p>
+                 </div>
+                 <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover/item:text-blue-500 group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all" />
+              </a>
 
-              <div className="mt-auto space-y-4 pt-8 border-t border-slate-100">
-                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between">
-                   Team Availability
-                   <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded-lg">14 Online</span>
-                 </p>
-                 <div className="flex -space-x-3 overflow-hidden p-1">
-                   {[
-                     { initials: 'MJ', color: 'bg-emerald-500 border-emerald-600' },
-                     { initials: 'AS', color: 'bg-indigo-500 border-indigo-600' },
-                     { initials: 'RK', color: 'bg-rose-500 border-rose-600' },
-                     { initials: 'PL', color: 'bg-amber-500 border-amber-600' },
-                     { initials: 'TK', color: 'bg-sky-500 border-sky-600' },
-                   ].map((t, i) => (
-                     <div key={i} className={`h-11 w-11 rounded-full ring-[3px] ring-white flex items-center justify-center text-[11px] font-black text-white shadow-sm border ${t.color}`}>
-                        {t.initials}
-                     </div>
-                   ))}
-                   <div className="h-11 w-11 rounded-full ring-[3px] ring-white bg-slate-50 flex items-center justify-center text-[12px] font-black text-slate-500 shadow-sm border border-slate-200 cursor-pointer hover:bg-slate-100 transition-colors">
-                      +9
-                   </div>
-                 </div>
-                 <p className="text-[11px] font-semibold text-slate-400 mt-3 pt-2">Almost everyone is online and active right now.</p>
+              <div className="mt-auto p-5 rounded-[22px] bg-slate-50 border border-slate-100/80 flex flex-col gap-3">
+                 <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center">Video Conferencing</p>
+                 <a 
+                    href="https://meet.google.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-full py-3 rounded-xl bg-slate-900 text-white text-[13px] font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg"
+                 >
+                    <Video className="w-4 h-4" />
+                    Start Google Meet
+                 </a>
               </div>
            </div>
         </div>

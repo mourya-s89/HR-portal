@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import connectToDatabase from "@/lib/db";
@@ -29,5 +29,54 @@ export async function POST(req: Request) {
     const emp = await User.create({ ...body, password: hashed });
     const { password: _, ...empData } = emp.toObject();
     return NextResponse.json({ employee: empData }, { status: 201 });
+  } catch (e: any) { return NextResponse.json({ error: e.message }, { status: 500 }); }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const role = (session.user as any).role;
+    if (role !== "Admin" && role !== "HR") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+    await connectToDatabase();
+    const body = await req.json();
+    const { id, password, ...updates } = body;
+
+    if (!id) return NextResponse.json({ error: "Employee ID is required" }, { status: 400 });
+
+    if (password) {
+      updates.password = await bcrypt.hash(password, 10);
+    }
+
+    const emp = await User.findByIdAndUpdate(id, updates, { new: true }).select("-password");
+    if (!emp) return NextResponse.json({ error: "Employee not found" }, { status: 404 });
+
+    return NextResponse.json({ employee: emp });
+  } catch (e: any) { return NextResponse.json({ error: e.message }, { status: 500 }); }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const role = (session.user as any).role;
+    if (role !== "Admin" && role !== "HR") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+    await connectToDatabase();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) return NextResponse.json({ error: "Employee ID is required" }, { status: 400 });
+    
+    // Self-deletion check
+    if (id === (session.user as any).id) {
+      return NextResponse.json({ error: "You cannot delete your own account" }, { status: 400 });
+    }
+
+    const emp = await User.findByIdAndDelete(id);
+    if (!emp) return NextResponse.json({ error: "Employee not found" }, { status: 404 });
+
+    return NextResponse.json({ message: "Employee deleted successfully" });
   } catch (e: any) { return NextResponse.json({ error: e.message }, { status: 500 }); }
 }

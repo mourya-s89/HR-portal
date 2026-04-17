@@ -1,4 +1,4 @@
-﻿import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IUser extends Document {
   name: string;
@@ -15,6 +15,8 @@ export interface IUser extends Document {
   managerId?: mongoose.Types.ObjectId;
   address?: string;
   emergencyContact?: string;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -35,6 +37,8 @@ const UserSchema = new Schema<IUser>(
     managerId: { type: Schema.Types.ObjectId, ref: "User" },
     address: { type: String },
     emergencyContact: { type: String },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
   },
   { timestamps: true }
 );
