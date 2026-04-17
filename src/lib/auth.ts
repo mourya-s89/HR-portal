@@ -39,11 +39,17 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
+      console.log("SignIn Callback - Provider:", account?.provider);
+      console.log("SignIn Callback - Email:", user.email);
+      
       if (account?.provider === "google") {
         await connectToDatabase();
         const existingUser = await User.findOne({ email: user.email });
+        
+        console.log("SignIn Callback - User found in DB:", existingUser ? "Yes" : "No");
+        
         if (!existingUser) {
-          // Reject sign in if they are not pre-configured
+          console.log("SignIn Callback - Access Denied for:", user.email);
           return "/login?error=AccessDenied";
         }
         return true;
@@ -87,4 +93,5 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true,
 };
