@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Users, Plus, Search, Filter, Mail, Phone, Building2, Briefcase, Edit2, Trash2, X, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { formatDate, cn } from "@/lib/utils";
@@ -9,7 +9,7 @@ import { useSearchParams } from "next/navigation";
 const ROLE_COLORS: Record<string,string> = { Admin:"bg-red-500/10 text-red-500", HR:"bg-violet-500/10 text-violet-500", Employee:"bg-indigo-500/10 text-indigo-500" };
 const STATUS_COLORS: Record<string,string> = { Active:"bg-emerald-500/10 text-emerald-500", Inactive:"bg-orange-500/10 text-orange-500", Resigned:"bg-red-500/10 text-red-500" };
 
-export default function EmployeesPage() {
+function EmployeeDirectoryBody() {
   const searchParams = useSearchParams();
   const initialRole = searchParams.get("role") || "All";
 
@@ -264,5 +264,18 @@ export default function EmployeesPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function EmployeesPage() {
+  return (
+    <Suspense fallback={
+       <div className="flex flex-col items-center justify-center py-20 animate-pulse">
+         <Loader2 className="w-12 h-12 text-slate-200 animate-spin mb-4" />
+         <p className="text-slate-400 font-bold">Synchronizing directory...</p>
+       </div>
+    }>
+      <EmployeeDirectoryBody />
+    </Suspense>
   );
 }
