@@ -31,9 +31,10 @@ export default function TopBar({ title }: { title?: string }) {
       <div className="flex items-center gap-4">
         <button 
           onClick={toggleSidebar}
-          className="p-2 -ml-2 rounded-xl hover:bg-slate-100 lg:hidden text-slate-500 transition-colors"
+          className="p-3 -ml-3 rounded-2xl hover:bg-slate-100 lg:hidden text-slate-500 transition-all active:scale-90"
+          aria-label="Toggle Sidebar"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-6 h-6" />
         </button>
         <div>
           {title && <h1 className="text-lg font-bold text-slate-800 tracking-tight hidden xs:block">{title}</h1>}

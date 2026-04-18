@@ -41,14 +41,29 @@ export async function PUT(req: Request) {
 
     await connectToDatabase();
     const body = await req.json();
-    const { id, ...updates } = body;
+    const { id, userId, date, ...updates } = body;
 
-    if (!id) return NextResponse.json({ error: "Record ID is required" }, { status: 400 });
+    if (!userId || !date) {
+      return NextResponse.json({ error: "User ID and date are required" }, { status: 400 });
+    }
 
-    const updatedRecord = await Attendance.findByIdAndUpdate(id, updates, { new: true });
+    // Normalize date to midnight
+    const normalizedDate = new Date(date);
+    normalizedDate.setHours(0, 0, 0, 0);
+
+    const updatedRecord = await Attendance.findOneAndUpdate(
+      id ? { _id: id } : { userId, date: normalizedDate },
+      { 
+        ...updates, 
+        userId, 
+        date: normalizedDate 
+      },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
     
     return NextResponse.json({ record: updatedRecord });
   } catch (error: any) {
+    console.error("Attendance update error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
