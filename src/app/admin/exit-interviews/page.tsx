@@ -4,7 +4,7 @@ import {
   Search, UserX, Calendar, 
   Trash2, Loader2, X, Star, 
   ThumbsUp, ThumbsDown, MessageSquare,
-  FileText, ArrowRight
+  FileText, ArrowRight, TrendingUp, CheckCircle2, UserRoundX
 } from "lucide-react";
 import { toast } from "sonner";
 import { formatDate, cn } from "@/lib/utils";
