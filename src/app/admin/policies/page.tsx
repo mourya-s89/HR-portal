@@ -111,13 +111,13 @@ export default function PoliciesAdminPage() {
     <div className="space-y-8 animate-fade-in-up pb-20">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold gradient-text">Corporate Governance</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Corporate Governance</h1>
           <p className="text-muted-foreground mt-1 font-medium">Standardizing rules, expectations, and ethical guidelines.</p>
         </div>
         {!showForm && (
           <button 
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-900 text-white font-bold shadow-xl hover:bg-slate-800 transition-all active:scale-95"
+            className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#111827] text-white font-bold shadow-xl hover:bg-slate-800 transition-all active:scale-95"
           >
             <Plus className="w-5 h-5" />
             New Policy
@@ -126,10 +126,10 @@ export default function PoliciesAdminPage() {
       </div>
 
       {showForm && (
-        <div className="glass-card rounded-[32px] p-8 border border-white bg-white/70 backdrop-blur-xl animate-fade-in-up shadow-2xl">
+        <div className=" rounded-[32px] p-8 border border-white bg-white shadow-[0_4px_24px_-4px_rgba(0,0,0,0.02)] animate-fade-in-up shadow-2xl">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-bold flex items-center gap-3">
-              <ShieldCheck className="w-6 h-6 text-indigo-500" />
+            <h2 className="text-xl font-extrabold tracking-tight flex items-center gap-3">
+              <ShieldCheck className="w-6 h-6 text-[#1E6DEB]" />
               {editingId ? "Revise Policy" : "Draft New Policy"}
             </h2>
             <button onClick={handleCloseForm} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X className="w-6 h-6 text-slate-400" /></button>
@@ -144,7 +144,7 @@ export default function PoliciesAdminPage() {
                     value={form.title}
                     onChange={e => setForm({...form, title: e.target.value})}
                     placeholder="e.g., Code of Professional Ethics"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold"
+                    className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold"
                   />
                </div>
                
@@ -153,7 +153,7 @@ export default function PoliciesAdminPage() {
                   <select 
                     value={form.category}
                     onChange={e => setForm({...form, category: e.target.value})}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold"
+                    className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold"
                   >
                      {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                   </select>
@@ -165,7 +165,7 @@ export default function PoliciesAdminPage() {
                      <input 
                        value={form.version}
                        onChange={e => setForm({...form, version: e.target.value})}
-                       className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold text-center"
+                       className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold text-center"
                      />
                   </div>
                   <div className="space-y-2">
@@ -174,7 +174,7 @@ export default function PoliciesAdminPage() {
                        type="date"
                        value={form.effectiveDate}
                        onChange={e => setForm({...form, effectiveDate: e.target.value})}
-                       className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold text-center"
+                       className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold text-center"
                      />
                   </div>
                </div>
@@ -187,17 +187,17 @@ export default function PoliciesAdminPage() {
                     value={form.content}
                     onChange={e => setForm({...form, content: e.target.value})}
                     placeholder="Describe the policy details, terms, and conditions..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-medium leading-relaxed"
+                    className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-medium leading-relaxed"
                   />
                </div>
             </div>
 
             <div className="flex justify-end gap-3 pt-4">
-               <button type="button" onClick={handleCloseForm} className="px-8 py-4 rounded-2xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all active:scale-95">Cancel</button>
+               <button type="button" onClick={handleCloseForm} className="px-8 py-4 rounded-[24px] bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all active:scale-95">Cancel</button>
                <button 
                   type="submit" 
                   disabled={submitting}
-                  className="px-10 py-4 rounded-2xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-all shadow-xl active:scale-95 flex items-center gap-2"
+                  className="px-10 py-4 rounded-full bg-[#111827] text-white font-bold hover:bg-slate-800 transition-all shadow-xl active:scale-95 flex items-center gap-2"
                >
                   {submitting && <Loader2 className="w-5 h-5 animate-spin" />}
                   {editingId ? "Update Policy" : "Publish Policy"}
@@ -216,28 +216,28 @@ export default function PoliciesAdminPage() {
              placeholder="Search policies by title or category..." 
              value={search} 
              onChange={e => setSearch(e.target.value)}
-             className="w-full bg-white border border-slate-200 rounded-[28px] pl-12 pr-6 py-4.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm font-medium"
+             className="w-full bg-white border border-slate-100 rounded-[28px] pl-12 pr-6 py-4.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] shadow-sm font-medium"
            />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
            {loading ? (
              Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="glass-card h-64 rounded-[32px] animate-pulse bg-white border border-slate-100" />
+                <div key={i} className=" h-64 rounded-[32px] animate-pulse bg-white border border-slate-100" />
              ))
            ) : filtered.length > 0 ? (
              filtered.map((policy) => (
-               <div key={policy._id} className="glass-card group p-8 rounded-[40px] border border-slate-100 bg-white hover:border-indigo-100 transition-all shadow-sm hover:shadow-xl relative flex flex-col">
+               <div key={policy._id} className=" group p-8 rounded-[40px] border border-slate-100 bg-white hover:border-[#EDF2FE] transition-all shadow-sm hover:shadow-xl relative flex flex-col">
                   <div className="flex items-start justify-between mb-6">
-                     <div className="w-14 h-14 rounded-2xl bg-slate-50 text-indigo-500 flex items-center justify-center font-bold text-lg group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-inner">
+                     <div className="w-14 h-14 rounded-[24px] bg-slate-50 text-[#1E6DEB] flex items-center justify-center font-bold text-lg group-hover:bg-[#1E6DEB] group-hover:text-white transition-all shadow-inner">
                         <BookOpen className="w-6 h-6" />
                      </div>
-                     <span className="px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-widest border border-indigo-100">
+                     <span className="px-3 py-1 rounded-full bg-[#EDF2FE] text-[#1E6DEB] text-[10px] font-black uppercase tracking-widest border border-[#EDF2FE]">
                         v{policy.version}
                      </span>
                   </div>
 
-                  <h3 className="font-extrabold text-slate-800 text-lg mb-2 leading-tight group-hover:text-indigo-600 transition-colors">
+                  <h3 className="font-extrabold text-[#111827] text-lg mb-2 leading-tight group-hover:text-[#1E6DEB] transition-colors">
                      {policy.title}
                   </h3>
                   
@@ -254,13 +254,13 @@ export default function PoliciesAdminPage() {
                      <div className="flex gap-1.5">
                         <button 
                           onClick={() => handleEdit(policy)}
-                          className="p-3 rounded-2xl bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white transition-all shadow-sm"
+                          className="p-3 rounded-[24px] bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white transition-all shadow-sm"
                         >
                            <Edit3 className="w-4.5 h-4.5" />
                         </button>
                         <button 
                           onClick={() => deletePolicy(policy._id)}
-                          className="p-3 rounded-2xl bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-all shadow-sm"
+                          className="p-3 rounded-[24px] bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-all shadow-sm"
                         >
                            <Trash2 className="w-4.5 h-4.5" />
                         </button>
@@ -269,7 +269,7 @@ export default function PoliciesAdminPage() {
                </div>
              ))
            ) : (
-             <div className="col-span-full py-40 text-center bg-slate-50/50 rounded-[60px] border-2 border-dashed border-slate-200 flex flex-col items-center">
+             <div className="col-span-full py-40 text-center bg-slate-50 rounded-[60px] border-2 border-dashed border-slate-100 flex flex-col items-center">
                 <ShieldCheck className="w-16 h-16 text-slate-200 mb-6" />
                 <h3 className="text-slate-700 text-xl font-black">No Policies Found</h3>
                 <p className="text-slate-400 text-sm mt-2 max-w-xs mx-auto font-medium">Define your organization's legal and behavioral standards here.</p>

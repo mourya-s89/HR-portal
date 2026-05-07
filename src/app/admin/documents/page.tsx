@@ -90,13 +90,13 @@ export default function DocumentCenterAdminPage() {
     <div className="space-y-8 animate-fade-in-up pb-20">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold gradient-text">Document Repository</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Document Repository</h1>
           <p className="text-muted-foreground mt-1 font-medium">Securely manage and access employee records and company assets.</p>
         </div>
         {!showUpload && (
           <button 
             onClick={() => setShowUpload(true)}
-            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 text-white font-bold shadow-xl hover:bg-indigo-700 transition-all active:scale-95"
+            className="flex items-center gap-2 px-6 py-3 rounded-[24px] bg-[#1E6DEB] text-white font-bold shadow-xl hover:bg-indigo-700 transition-all active:scale-95"
           >
             <Upload className="w-5 h-5" />
             Upload Document
@@ -105,10 +105,10 @@ export default function DocumentCenterAdminPage() {
       </div>
 
       {showUpload && (
-        <div className="glass-card rounded-[32px] p-8 border border-white bg-white/80 animate-fade-in-up">
+        <div className=" rounded-[32px] p-8 border border-white bg-white/80 animate-fade-in-up">
            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-bold flex items-center gap-3">
-                 <HardDrive className="w-5 h-5 text-indigo-500" />
+              <h2 className="text-xl font-extrabold tracking-tight flex items-center gap-3">
+                 <HardDrive className="w-5 h-5 text-[#1E6DEB]" />
                  Upload to Secure Cloud
               </h2>
               <button 
@@ -127,7 +127,7 @@ export default function DocumentCenterAdminPage() {
                       required
                       value={form.userId}
                       onChange={e => setForm({...form, userId: e.target.value})}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold"
+                      className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold"
                     >
                        <option value="">Select Employee</option>
                        {employees.map(emp => (
@@ -140,7 +140,7 @@ export default function DocumentCenterAdminPage() {
                     <select 
                       value={form.category}
                       onChange={e => setForm({...form, category: e.target.value})}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold"
+                      className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold"
                     >
                        {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                     </select>
@@ -152,12 +152,12 @@ export default function DocumentCenterAdminPage() {
                       placeholder="e.g., Annual Performance Bonus Letter"
                       value={form.name}
                       onChange={e => setForm({...form, name: e.target.value})}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold"
+                      className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold"
                     />
                  </div>
                  <div className="md:col-span-2">
                     <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1 block mb-2">File Upload</label>
-                    <div className="border-2 border-dashed border-slate-200 rounded-3xl p-10 flex flex-col items-center justify-center bg-slate-50/50 hover:bg-indigo-50/30 hover:border-indigo-200 transition-all cursor-pointer relative group">
+                    <div className="border-2 border-dashed border-slate-100 rounded-3xl p-10 flex flex-col items-center justify-center bg-slate-50 hover:bg-[#EDF2FE]/30 hover:border-[#EDF2FE] transition-all cursor-pointer relative group">
                        <input 
                          type="file" 
                          required
@@ -177,11 +177,11 @@ export default function DocumentCenterAdminPage() {
               </div>
 
               <div className="flex justify-end gap-3 pt-4">
-                 <button type="button" onClick={() => setShowUpload(false)} className="px-8 py-4 rounded-2xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all active:scale-95">Cancel</button>
+                 <button type="button" onClick={() => setShowUpload(false)} className="px-8 py-4 rounded-[24px] bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all active:scale-95">Cancel</button>
                  <button 
                   type="submit" 
                   disabled={submitting}
-                  className="px-10 py-4 rounded-2xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition-all shadow-xl active:scale-95 flex items-center gap-2"
+                  className="px-10 py-4 rounded-[24px] bg-[#1E6DEB] text-white font-bold hover:bg-indigo-700 transition-all shadow-xl active:scale-95 flex items-center gap-2"
                  >
                     {submitting && <Loader2 className="w-5 h-5 animate-spin" />}
                     Confirm Upload
@@ -201,17 +201,17 @@ export default function DocumentCenterAdminPage() {
                 placeholder="Search by filename or employee..." 
                 value={search} 
                 onChange={e => setSearch(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-[28px] pl-12 pr-6 py-4.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm font-medium"
+                className="w-full bg-white border border-slate-100 rounded-[28px] pl-12 pr-6 py-4.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] shadow-sm font-medium"
               />
            </div>
-           <div className="flex gap-2 p-1.5 bg-white border border-slate-200 rounded-[24px] shadow-sm overflow-x-auto">
+           <div className="flex gap-2 p-1.5 bg-white border border-slate-100 rounded-[24px] shadow-sm overflow-x-auto">
               {["All", ...CATEGORIES].map(cat => (
                 <button 
                   key={cat} 
                   onClick={() => setFilter(cat)}
                   className={cn(
                     "px-5 py-2.5 rounded-[18px] text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap",
-                    filter === cat ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-800 hover:bg-slate-50"
+                    filter === cat ? "bg-[#111827] text-white shadow-lg" : "text-slate-400 hover:text-[#111827] hover:bg-slate-50"
                   )}
                 >
                   {cat}
@@ -223,21 +223,21 @@ export default function DocumentCenterAdminPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
            {loading ? (
               Array.from({ length: 8 }).map((_, i) => (
-                 <div key={i} className="glass-card h-56 rounded-[32px] animate-pulse bg-white border border-slate-100" />
+                 <div key={i} className=" h-56 rounded-[32px] animate-pulse bg-white border border-slate-100" />
               ))
            ) : filteredDocs.length > 0 ? (
              filteredDocs.map((doc) => (
-               <div key={doc._id} className="glass-card group p-6 rounded-[32px] border border-slate-100 bg-white hover:border-indigo-100 transition-all shadow-sm hover:shadow-xl relative flex flex-col">
+               <div key={doc._id} className=" group p-6 rounded-[32px] border border-slate-100 bg-white hover:border-[#EDF2FE] transition-all shadow-sm hover:shadow-xl relative flex flex-col">
                   <div className="flex items-start justify-between mb-4">
-                     <div className="w-12 h-12 rounded-2xl bg-slate-50 text-indigo-500 flex items-center justify-center font-bold text-lg group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                     <div className="w-12 h-12 rounded-[24px] bg-slate-50 text-[#1E6DEB] flex items-center justify-center font-bold text-lg group-hover:bg-[#1E6DEB] group-hover:text-white transition-all">
                         <FileText className="w-6 h-6" />
                      </div>
-                     <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-600 text-[9px] font-black uppercase tracking-widest border border-indigo-100">
+                     <span className="px-2.5 py-1 rounded-lg bg-[#EDF2FE] text-[#1E6DEB] text-[9px] font-black uppercase tracking-widest border border-[#EDF2FE]">
                         {doc.category}
                      </span>
                   </div>
 
-                  <h3 className="font-extrabold text-slate-800 text-sm mb-1 truncate group-hover:text-indigo-600 transition-colors" title={doc.name}>
+                  <h3 className="font-extrabold text-[#111827] text-sm mb-1 truncate group-hover:text-[#1E6DEB] transition-colors" title={doc.name}>
                      {doc.name}
                   </h3>
                   
@@ -255,14 +255,14 @@ export default function DocumentCenterAdminPage() {
                         <a 
                           href={`/api/admin/documents/${doc._id}`} 
                           target="_blank"
-                          className="p-2 rounded-xl bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white transition-all shadow-sm"
+                          className="p-2 rounded-2xl bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white transition-all shadow-sm"
                           title="View / Download"
                         >
                            <Eye className="w-4 h-4" />
                         </a>
                         <button 
                           onClick={() => deleteDocument(doc._id)}
-                          className="p-2 rounded-xl bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-all shadow-sm"
+                          className="p-2 rounded-2xl bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-all shadow-sm"
                           title="Delete"
                         >
                            <Trash2 className="w-4 h-4" />
@@ -272,7 +272,7 @@ export default function DocumentCenterAdminPage() {
                </div>
              ))
            ) : (
-             <div className="col-span-full py-32 text-center bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-200 flex flex-col items-center">
+             <div className="col-span-full py-32 text-center bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-100 flex flex-col items-center">
                 <FolderOpen className="w-16 h-16 text-slate-200 mb-4" />
                 <h3 className="text-slate-600 font-bold">Safe Deposit Box Empty</h3>
                 <p className="text-slate-400 text-sm mt-1 max-w-[200px]">Any files you upload to the repository will appear here.</p>

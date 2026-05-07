@@ -74,7 +74,7 @@ export default function CalendarAdminPage() {
 
   const typeStyles: any = {
     "Holiday": "bg-rose-50 text-rose-600 border-rose-100",
-    "Meeting": "bg-indigo-50 text-indigo-600 border-indigo-100",
+    "Meeting": "bg-[#EDF2FE] text-[#1E6DEB] border-[#EDF2FE]",
     "Event": "bg-emerald-50 text-emerald-600 border-emerald-100",
     "Deadline": "bg-amber-50 text-amber-600 border-amber-100",
     "Leave": "bg-slate-50 text-slate-600 border-slate-100",
@@ -93,13 +93,13 @@ export default function CalendarAdminPage() {
     <div className="space-y-8 animate-fade-in-up pb-20">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold gradient-text">Annual Timeline</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Annual Timeline</h1>
           <p className="text-muted-foreground mt-1 font-medium">Coordinate organization-wide events and holiday schedules.</p>
         </div>
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 text-white font-bold shadow-xl hover:bg-indigo-700 transition-all active:scale-95"
+            className="flex items-center gap-2 px-6 py-3 rounded-[24px] bg-[#1E6DEB] text-white font-bold shadow-xl hover:bg-indigo-700 transition-all active:scale-95"
           >
             <Plus className="w-5 h-5" />
             Add Event
@@ -108,10 +108,10 @@ export default function CalendarAdminPage() {
       </div>
 
       {showForm && (
-        <div className="glass-card rounded-[32px] p-8 border border-white bg-white/80 backdrop-blur-xl animate-fade-in-up shadow-2xl">
+        <div className=" rounded-[32px] p-8 border border-white bg-white shadow-sm animate-fade-in-up shadow-2xl">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-bold flex items-center gap-3">
-              <CalendarIcon className="w-6 h-6 text-indigo-500" />
+            <h2 className="text-xl font-extrabold tracking-tight flex items-center gap-3">
+              <CalendarIcon className="w-6 h-6 text-[#1E6DEB]" />
               Schedule New Occasion
             </h2>
             <button onClick={() => setShowForm(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X className="w-6 h-6 text-slate-400" /></button>
@@ -122,19 +122,19 @@ export default function CalendarAdminPage() {
                <div className="space-y-2 md:col-span-2">
                   <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Event Title</label>
                   <input required value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="e.g., Annual Strategy Summit"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold" />
+                    className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold" />
                </div>
                
                <div className="space-y-2">
                   <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Date</label>
                   <input type="date" required value={form.date} onChange={e => setForm({...form, date: e.target.value})}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold text-center" />
+                    className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold text-center" />
                </div>
 
                <div className="space-y-2">
                   <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Category</label>
                   <select value={form.type} onChange={e => setForm({...form, type: e.target.value})}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-bold">
+                    className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-bold">
                      <option value="Holiday">Holiday</option>
                      <option value="Event">Event</option>
                      <option value="Meeting">Meeting</option>
@@ -145,13 +145,13 @@ export default function CalendarAdminPage() {
                <div className="md:col-span-2 space-y-2">
                   <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Brief Description</label>
                   <textarea rows={3} value={form.description} onChange={e => setForm({...form, description: e.target.value})} placeholder="Location, agenda, or dress code..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 font-medium" />
+                    className="w-full bg-slate-50 border border-slate-100 rounded-[24px] px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] font-medium" />
                </div>
             </div>
 
             <div className="flex justify-end gap-3 pt-4">
-               <button type="button" onClick={() => setShowForm(false)} className="px-8 py-4 rounded-2xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all active:scale-95">Discard</button>
-               <button type="submit" disabled={submitting} className="px-10 py-4 rounded-2xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition-all shadow-xl active:scale-95 flex items-center gap-2">
+               <button type="button" onClick={() => setShowForm(false)} className="px-8 py-4 rounded-[24px] bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-all active:scale-95">Discard</button>
+               <button type="submit" disabled={submitting} className="px-10 py-4 rounded-[24px] bg-[#1E6DEB] text-white font-bold hover:bg-indigo-700 transition-all shadow-xl active:scale-95 flex items-center gap-2">
                   {submitting && <Loader2 className="w-5 h-5 animate-spin" />}
                   Save Timeline Event
                </button>
@@ -164,20 +164,20 @@ export default function CalendarAdminPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
          {loading ? (
             Array.from({ length: 6 }).map((_, i) => (
-               <div key={i} className="glass-card h-48 rounded-[32px] animate-pulse bg-white border border-slate-100" />
+               <div key={i} className=" h-48 rounded-[32px] animate-pulse bg-white border border-slate-100" />
             ))
          ) : events.length > 0 ? (
            events.map((event) => (
-             <div key={event._id} className="glass-card group p-8 rounded-[40px] border border-slate-100 bg-white hover:border-indigo-100 transition-all shadow-sm hover:shadow-xl relative flex flex-col group overflow-hidden">
+             <div key={event._id} className=" group p-8 rounded-[40px] border border-slate-100 bg-white hover:border-[#EDF2FE] transition-all shadow-sm hover:shadow-xl relative flex flex-col group overflow-hidden">
                 <div className="flex items-start justify-between mb-4">
                    <div className="flex items-center gap-6">
                       <div className="flex flex-col items-center">
                          <span className="text-[10px] font-black text-rose-500 uppercase tracking-widest leading-none mb-1">{new Date(event.date).toLocaleString('default', { month: 'short' })}</span>
-                         <span className="text-3xl font-black text-slate-800 leading-none">{new Date(event.date).getDate()}</span>
+                         <span className="text-3xl font-black text-[#111827] leading-none">{new Date(event.date).getDate()}</span>
                       </div>
                       <div className="w-px h-10 bg-slate-100" />
                       <div>
-                         <h3 className="font-extrabold text-slate-800 text-lg leading-tight mb-1 group-hover:text-indigo-600 transition-colors">{event.title}</h3>
+                         <h3 className="font-extrabold text-[#111827] text-lg leading-tight mb-1 group-hover:text-[#1E6DEB] transition-colors">{event.title}</h3>
                          <div className={cn("px-2 py-0.5 rounded-lg border text-[9px] font-black uppercase tracking-widest w-fit flex items-center gap-1.5", typeStyles[event.type])}>
                             {getEventIcon(event.type)}
                             {event.type}
@@ -197,7 +197,7 @@ export default function CalendarAdminPage() {
                    </div>
                    <button 
                     onClick={() => deleteEvent(event._id)}
-                    className="p-3 rounded-2xl bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-all shadow-sm"
+                    className="p-3 rounded-[24px] bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-all shadow-sm"
                    >
                       <Trash2 className="w-4.5 h-4.5" />
                    </button>
@@ -205,7 +205,7 @@ export default function CalendarAdminPage() {
              </div>
            ))
          ) : (
-           <div className="col-span-full py-40 text-center bg-slate-50/50 rounded-[60px] border-2 border-dashed border-slate-200 flex flex-col items-center">
+           <div className="col-span-full py-40 text-center bg-slate-50 rounded-[60px] border-2 border-dashed border-slate-100 flex flex-col items-center">
               <CalendarIcon className="w-16 h-16 text-slate-200 mb-6" />
               <h3 className="text-slate-700 text-xl font-black">Calendar Clear</h3>
               <p className="text-slate-400 text-sm mt-2 max-w-xs mx-auto font-medium">No company milestones or holidays are currently scheduled.</p>

@@ -107,13 +107,13 @@ export default function AnnouncementsAdminPage() {
     <div className="space-y-8 animate-fade-in-up">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold gradient-text">Announcements</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Announcements</h1>
           <p className="text-muted-foreground mt-1">Broadcast important news and updates to the entire team.</p>
         </div>
         {!showForm && (
           <button 
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold shadow-lg shadow-indigo-600/20 hover:opacity-90 transition-all active:scale-95"
+            className="flex items-center gap-2 px-6 py-3 rounded-[24px] bg-gradient-to-r from-[#1E6DEB] to-blue-600 text-white font-bold shadow-lg shadow-indigo-600/20 hover:opacity-90 transition-all active:scale-95"
           >
             <Plus className="w-5 h-5" />
             New Announcement
@@ -122,12 +122,12 @@ export default function AnnouncementsAdminPage() {
       </div>
 
       {showForm && (
-        <div className="glass-card rounded-3xl p-8 border border-white/5 animate-fade-in-up relative overflow-hidden bg-white">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2" />
+        <div className=" rounded-3xl p-8 border border-white/5 animate-fade-in-up relative overflow-hidden bg-white">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#1E6DEB]/5 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2" />
           
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold flex items-center gap-2 text-slate-800">
-              <Megaphone className="w-5 h-5 text-indigo-500" />
+            <h2 className="text-xl font-extrabold tracking-tight flex items-center gap-2 text-[#111827]">
+              <Megaphone className="w-5 h-5 text-[#1E6DEB]" />
               {editingId ? "Edit Announcement" : "Create New Announcement"}
             </h2>
             <button onClick={handleCloseForm} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
@@ -135,7 +135,7 @@ export default function AnnouncementsAdminPage() {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6 text-slate-900">
+          <form onSubmit={handleSubmit} className="space-y-6 text-[#111827]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2 md:col-span-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Title</label>
@@ -144,7 +144,7 @@ export default function AnnouncementsAdminPage() {
                   value={form.title}
                   onChange={e => setForm({...form, title: e.target.value})}
                   placeholder="e.g., Annual Office Retreat 2024"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE]"
                 />
               </div>
 
@@ -156,7 +156,7 @@ export default function AnnouncementsAdminPage() {
                   value={form.content}
                   onChange={e => setForm({...form, content: e.target.value})}
                   placeholder="Share details about the announcement..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE]"
                 />
               </div>
 
@@ -165,7 +165,7 @@ export default function AnnouncementsAdminPage() {
                 <select 
                   value={form.priority}
                   onChange={e => setForm({...form, priority: e.target.value})}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE]"
                 >
                   <option value="General">General</option>
                   <option value="Important">Important</option>
@@ -179,11 +179,11 @@ export default function AnnouncementsAdminPage() {
                   type="date"
                   value={form.expiresAt}
                   onChange={e => setForm({...form, expiresAt: e.target.value})}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE]"
                 />
               </div>
 
-              <div className="md:col-span-2 flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200">
+              <div className="md:col-span-2 flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
                 <div>
                   <label className="font-bold text-sm text-slate-700 block">Pin Announcement</label>
                   <p className="text-xs text-slate-500">Pinned announcements stay at the top of the feed.</p>
@@ -192,7 +192,7 @@ export default function AnnouncementsAdminPage() {
                   type="checkbox"
                   checked={form.pinned}
                   onChange={e => setForm({...form, pinned: e.target.checked})}
-                  className="w-5 h-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  className="w-5 h-5 rounded border-slate-300 text-[#1E6DEB] focus:ring-indigo-500"
                 />
               </div>
             </div>
@@ -201,14 +201,14 @@ export default function AnnouncementsAdminPage() {
               <button 
                 type="button" 
                 onClick={handleCloseForm}
-                className="px-6 py-3 rounded-xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-colors"
+                className="px-6 py-3 rounded-2xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition-colors"
               >
                 Cancel
               </button>
               <button 
                 type="submit"
                 disabled={submitting}
-                className="px-8 py-3 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-all disabled:opacity-50"
+                className="px-8 py-3 rounded-2xl bg-[#111827] text-white font-bold hover:bg-slate-800 transition-all disabled:opacity-50"
               >
                 {submitting ? "Processing..." : editingId ? "Update Announcement" : "Post Announcement"}
               </button>
@@ -221,13 +221,13 @@ export default function AnnouncementsAdminPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading ? (
           Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="glass-card p-6 rounded-3xl animate-pulse border border-white/5 h-48 bg-white" />
+            <div key={i} className=" p-6 rounded-3xl animate-pulse border border-white/5 h-48 bg-white" />
           ))
         ) : announcements.length > 0 ? (
           announcements.map((ann) => (
-            <div key={ann._id} className="glass-card p-6 rounded-3xl border border-white/10 hover:border-white/20 transition-all group relative overflow-hidden bg-white">
+            <div key={ann._id} className=" p-6 rounded-3xl border border-white/10 hover:border-white/20 transition-all group relative overflow-hidden bg-white">
               {ann.pinned && (
-                <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500" />
+                <div className="absolute top-0 left-0 w-1 h-full bg-[#1E6DEB]" />
               )}
               
               <div className="flex items-start justify-between mb-4">
@@ -237,7 +237,7 @@ export default function AnnouncementsAdminPage() {
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
                   <button 
                     onClick={() => handleEdit(ann)}
-                    className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                    className="p-2 text-[#1E6DEB] hover:bg-[#EDF2FE] rounded-lg transition-all"
                   >
                     <Edit3 className="w-4 h-4" />
                   </button>
@@ -250,7 +250,7 @@ export default function AnnouncementsAdminPage() {
                 </div>
               </div>
 
-              <h3 className="font-bold text-slate-800 mb-2 truncate group-hover:text-indigo-600 transition-colors leading-tight">
+              <h3 className="font-bold text-[#111827] mb-2 truncate group-hover:text-[#1E6DEB] transition-colors leading-tight">
                 {ann.title}
               </h3>
               
@@ -271,7 +271,7 @@ export default function AnnouncementsAdminPage() {
             </div>
           ))
         ) : (
-          <div className="col-span-full py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 flex flex-col items-center text-center">
+          <div className="col-span-full py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-100 flex flex-col items-center text-center">
             <Megaphone className="w-12 h-12 text-slate-300 mb-4" />
             <h3 className="text-slate-500 font-bold">No announcements yet</h3>
             <p className="text-slate-400 text-sm mt-1">Start by creating your first company announcement.</p>

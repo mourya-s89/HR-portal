@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { CalendarDays, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const TYPE_COLORS: Record<string,string> = { Holiday:"bg-emerald-500", Event:"bg-indigo-500", Leave:"bg-blue-500", Meeting:"bg-violet-500", Deadline:"bg-red-500" };
+const TYPE_COLORS: Record<string,string> = { Holiday:"bg-emerald-500", Event:"bg-[#1E6DEB]", Leave:"bg-blue-500", Meeting:"bg-violet-500", Deadline:"bg-red-500" };
 
 export default function CalendarPage() {
   const [events, setEvents] = useState<any[]>([]);
@@ -29,18 +29,18 @@ export default function CalendarPage() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
-        <h1 className="text-3xl font-bold gradient-text">Annual Calendar</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Annual Calendar</h1>
         <p className="text-muted-foreground mt-1">Public holidays, company events and important dates.</p>
       </div>
 
-      <div className="glass-card rounded-3xl p-8 border border-white/5">
+      <div className=" rounded-3xl p-8 border border-white/5">
         {/* Nav */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">{monthNames[month]} {year}</h2>
+          <h2 className="text-xl font-extrabold tracking-tight">{monthNames[month]} {year}</h2>
           <div className="flex items-center gap-2">
-            <button onClick={() => setCurrent(new Date(year, month-1,1))} className="p-2 rounded-xl hover:bg-muted/50 transition-colors"><ChevronLeft className="w-5 h-5"/></button>
-            <button onClick={() => setCurrent(new Date())} className="px-4 py-2 rounded-xl bg-muted/40 text-sm font-medium hover:bg-muted/60 transition-colors">Today</button>
-            <button onClick={() => setCurrent(new Date(year, month+1,1))} className="p-2 rounded-xl hover:bg-muted/50 transition-colors"><ChevronRight className="w-5 h-5"/></button>
+            <button onClick={() => setCurrent(new Date(year, month-1,1))} className="p-2 rounded-2xl hover:bg-muted/50 transition-colors"><ChevronLeft className="w-5 h-5"/></button>
+            <button onClick={() => setCurrent(new Date())} className="px-4 py-2 rounded-2xl bg-muted/40 text-sm font-medium hover:bg-muted/60 transition-colors">Today</button>
+            <button onClick={() => setCurrent(new Date(year, month+1,1))} className="p-2 rounded-2xl hover:bg-muted/50 transition-colors"><ChevronRight className="w-5 h-5"/></button>
           </div>
         </div>
 
@@ -58,10 +58,10 @@ export default function CalendarPage() {
             const dayEvents = eventsForDay(day);
             const isToday = day===today.getDate() && month===today.getMonth() && year===today.getFullYear();
             return (
-              <div key={day} className={cn("min-h-[80px] p-2 rounded-2xl border border-white/5 hover:border-white/10 transition-all group",
+              <div key={day} className={cn("min-h-[80px] p-2 rounded-[24px] border border-white/5 hover:border-white/10 transition-all group",
                 isToday ? "border-primary/50 bg-primary/5" : "bg-muted/10"
               )}>
-                <div className={cn("w-7 h-7 rounded-xl flex items-center justify-center text-sm font-bold mb-1 transition-colors",
+                <div className={cn("w-7 h-7 rounded-2xl flex items-center justify-center text-sm font-bold mb-1 transition-colors",
                   isToday ? "bg-primary text-primary-foreground" : "group-hover:bg-muted/40")}>
                   {day}
                 </div>
@@ -89,11 +89,11 @@ export default function CalendarPage() {
       </div>
 
       {/* Upcoming Events List */}
-      <div className="glass-card rounded-3xl p-8 border border-white/5 space-y-4">
+      <div className=" rounded-3xl p-8 border border-white/5 space-y-4">
         <h2 className="text-lg font-bold">Upcoming Events</h2>
         <div className="space-y-3">
           {events.filter(e => new Date(e.date) >= new Date()).sort((a,b) => new Date(a.date).getTime()-new Date(b.date).getTime()).slice(0,8).map((ev,i) => (
-            <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-muted/30 hover:bg-muted/50 transition-colors">
+            <div key={i} className="flex items-center gap-4 p-4 rounded-[24px] bg-muted/30 hover:bg-muted/50 transition-colors">
               <div className={cn("w-2 h-10 rounded-full shrink-0", TYPE_COLORS[ev.type]||"bg-muted")}/>
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm">{ev.title}</p>

@@ -59,10 +59,10 @@ export default function AdminLeavesPage() {
     <div className="space-y-8 animate-fade-in-up pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold gradient-text">Leave Management</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Leave Management</h1>
           <p className="text-muted-foreground mt-1">Review and manage employee leave applications.</p>
         </div>
-        <button onClick={fetchLeaves} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 font-bold hover:bg-white transition-all">
+        <button onClick={fetchLeaves} className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-50 border border-slate-100 text-slate-600 font-bold hover:bg-white transition-all">
           <RefreshCcw className={cn("w-4 h-4", loading && "animate-spin")} />
           Refresh
         </button>
@@ -73,13 +73,13 @@ export default function AdminLeavesPage() {
         <div className="relative flex-1">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input type="text" placeholder="Search by employee or reason..." value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full bg-white border border-slate-200 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm" />
+            className="w-full bg-white border border-slate-100 rounded-[24px] pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] shadow-sm" />
         </div>
         <div className="flex gap-2">
           {["All", "Pending", "Approved", "Rejected"].map(s => (
             <button key={s} onClick={() => setFilter(s)}
-              className={cn("px-4 py-2 rounded-xl text-xs font-bold transition-all border",
-                filter === s ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-500 border-slate-200 hover:border-slate-300")}>
+              className={cn("px-4 py-2 rounded-2xl text-xs font-bold transition-all border",
+                filter === s ? "bg-[#111827] text-white border-slate-900" : "bg-white text-slate-500 border-slate-100 hover:border-slate-300")}>
               {s}
             </button>
           ))}
@@ -89,17 +89,17 @@ export default function AdminLeavesPage() {
       {/* List */}
       <div className="space-y-4">
         {loading ? (
-          Array.from({ length: 4 }).map((_, i) => <div key={i} className="glass-card h-28 rounded-3xl animate-pulse bg-white border border-white/5" />)
+          Array.from({ length: 4 }).map((_, i) => <div key={i} className=" h-28 rounded-3xl animate-pulse bg-white border border-white/5" />)
         ) : filtered.length > 0 ? (
           filtered.map((leave) => (
-            <div key={leave._id} className="glass-card p-6 rounded-[2rem] border border-white/10 hover:border-white/20 transition-all group bg-white shadow-sm">
+            <div key={leave._id} className=" p-6 rounded-[2rem] border border-white/10 hover:border-white/20 transition-all group bg-white shadow-sm">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center text-xl font-bold shadow-sm ring-1 ring-indigo-100">
+                  <div className="w-14 h-14 rounded-[24px] bg-[#EDF2FE] text-[#1E6DEB] flex items-center justify-center text-xl font-extrabold tracking-tight shadow-sm ring-1 ring-indigo-100">
                     {leave.userId?.name?.[0]}
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
+                    <h3 className="font-bold text-[#111827] text-lg flex items-center gap-2">
                       {leave.userId?.name}
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-400 uppercase tracking-widest">{leave.userId?.employeeId}</span>
                     </h3>
@@ -123,11 +123,11 @@ export default function AdminLeavesPage() {
                   {leave.status === "Pending" && (
                     <div className="flex gap-2">
                       <button onClick={() => handleAction(leave._id, "approve")}
-                        className="p-2.5 rounded-xl bg-emerald-500 text-white hover:bg-emerald-600 transition-all shadow-md shadow-emerald-200 active:scale-95">
+                        className="p-2.5 rounded-2xl bg-emerald-500 text-white hover:bg-emerald-600 transition-all shadow-md shadow-emerald-200 active:scale-95">
                         <CheckCheck className="w-5 h-5" />
                       </button>
                       <button onClick={() => handleAction(leave._id, "reject")}
-                        className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-rose-500 hover:border-rose-200 transition-all active:scale-95">
+                        className="p-2.5 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-rose-500 hover:border-rose-200 transition-all active:scale-95">
                         <X className="w-5 h-5" />
                       </button>
                     </div>
@@ -137,7 +137,7 @@ export default function AdminLeavesPage() {
             </div>
           ))
         ) : (
-          <div className="text-center py-24 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200">
+          <div className="text-center py-24 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-100">
             <AlertTriangle className="w-12 h-12 text-slate-300 mx-auto mb-4" />
             <p className="text-slate-500 font-bold">No leave requests found.</p>
             <p className="text-slate-400 text-sm mt-1 font-medium">Try adjusting your search or filters.</p>

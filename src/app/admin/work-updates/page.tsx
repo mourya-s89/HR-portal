@@ -88,12 +88,12 @@ export default function WorkUpdatesAdminPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold gradient-text">Employee Work Updates</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Employee Work Updates</h1>
           <p className="text-muted-foreground mt-1">Review daily progress from all team members.</p>
         </div>
         <button 
           onClick={fetchData}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-muted/50 hover:bg-muted font-medium transition-all active:scale-95"
+          className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-muted/50 hover:bg-muted font-medium transition-all active:scale-95"
         >
           <RefreshCcw className={cn("w-4 h-4", loading && "animate-spin")} />
           Refresh
@@ -110,14 +110,14 @@ export default function WorkUpdatesAdminPage() {
               placeholder="Search by employee name or task content..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-muted/30 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full bg-muted/30 border border-white/10 rounded-[24px] pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
 
           <div className="space-y-4">
             {loading ? (
               Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="glass-card p-6 rounded-3xl animate-pulse border border-white/5 space-y-3">
+                <div key={i} className=" p-6 rounded-3xl animate-pulse border border-white/5 space-y-3">
                   <div className="h-4 w-1/4 bg-white/5 rounded" />
                   <div className="h-12 w-full bg-white/5 rounded" />
                 </div>
@@ -128,13 +128,13 @@ export default function WorkUpdatesAdminPage() {
                   key={upd._id}
                   onClick={() => { setSelectedUpdate(upd); setIsEditing(false); }}
                   className={cn(
-                    "glass-card p-6 rounded-3xl border transition-all cursor-pointer group",
+                    " p-6 rounded-3xl border transition-all cursor-pointer group",
                     selectedUpdate?._id === upd._id ? "border-primary/50 bg-primary/5 shadow-lg" : "border-white/5 hover:border-white/10"
                   )}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-bold text-sm">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#1E6DEB] to-blue-500 flex items-center justify-center text-white font-bold text-sm">
                         {upd.userId?.name?.[0] || "?"}
                       </div>
                       <div>
@@ -187,10 +187,10 @@ export default function WorkUpdatesAdminPage() {
           <div className="sticky top-8">
             {selectedUpdate ? (
               <div className={cn(
-                "glass-card rounded-3xl border border-white/5 overflow-hidden transition-all",
+                " rounded-3xl border border-white/5 overflow-hidden transition-all",
                 isEditing && "ring-2 ring-indigo-500/50"
               )}>
-                <div className="h-32 bg-gradient-to-br from-indigo-600 to-violet-600 p-8 flex flex-col justify-end relative">
+                <div className="h-32 bg-gradient-to-br from-[#1E6DEB] to-blue-600 p-8 flex flex-col justify-end relative">
                   <div className="absolute top-4 right-4 flex gap-2">
                     {!isEditing ? (
                       <>
@@ -207,15 +207,15 @@ export default function WorkUpdatesAdminPage() {
                       </button>
                     )}
                   </div>
-                  <h2 className="text-white text-xl font-bold">{isEditing ? "Editing Update" : "Update Details"}</h2>
+                  <h2 className="text-white text-xl font-extrabold tracking-tight">{isEditing ? "Editing Update" : "Update Details"}</h2>
                   <p className="text-white/70 text-sm">{formatDate(selectedUpdate.date)}</p>
                 </div>
                 
                 <div className="p-8 space-y-8">
                   {/* User Section */}
                   {!isEditing && (
-                    <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-2xl border border-white/5">
-                      <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl font-bold">
+                    <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-[24px] border border-white/5">
+                      <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-xl font-extrabold tracking-tight">
                          {selectedUpdate.userId?.name?.[0]}
                       </div>
                       <div>
@@ -234,7 +234,7 @@ export default function WorkUpdatesAdminPage() {
                           rows={4}
                           value={editForm.tasksCompleted}
                           onChange={e => setEditForm({...editForm, tasksCompleted: e.target.value})}
-                          className="w-full bg-muted/20 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          className="w-full bg-muted/20 border border-white/10 rounded-[24px] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                       </div>
                       <div className="space-y-2">
@@ -245,7 +245,7 @@ export default function WorkUpdatesAdminPage() {
                           min={0} max={24}
                           value={editForm.hoursSpent}
                           onChange={e => setEditForm({...editForm, hoursSpent: parseInt(e.target.value)})}
-                          className="w-full bg-muted/20 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          className="w-full bg-muted/20 border border-white/10 rounded-[24px] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                       </div>
                       <div className="space-y-2">
@@ -254,7 +254,7 @@ export default function WorkUpdatesAdminPage() {
                           rows={2}
                           value={editForm.blockers}
                           onChange={e => setEditForm({...editForm, blockers: e.target.value})}
-                          className="w-full bg-muted/20 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          className="w-full bg-muted/20 border border-white/10 rounded-[24px] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                       </div>
                       <div className="space-y-2">
@@ -263,13 +263,13 @@ export default function WorkUpdatesAdminPage() {
                           rows={2}
                           value={editForm.nextDayPlan}
                           onChange={e => setEditForm({...editForm, nextDayPlan: e.target.value})}
-                          className="w-full bg-muted/20 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          className="w-full bg-muted/20 border border-white/10 rounded-[24px] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
                         />
                       </div>
                       <button 
                         type="submit"
                         disabled={submitting}
-                        className="w-full py-3.5 rounded-2xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+                        className="w-full py-3.5 rounded-full bg-[#111827] text-white font-bold hover:bg-slate-800 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
                       >
                         {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <CheckCircle2 className="w-5 h-5" />}
                         Save Changes
@@ -279,7 +279,7 @@ export default function WorkUpdatesAdminPage() {
                     <div className="space-y-6">
                       <div className="space-y-2">
                         <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Tasks Completed</h3>
-                        <div className="p-4 bg-muted/20 rounded-2xl text-sm leading-relaxed border border-white/5">
+                        <div className="p-4 bg-muted/20 rounded-[24px] text-sm leading-relaxed border border-white/5">
                           {selectedUpdate.tasksCompleted}
                         </div>
                       </div>
@@ -287,7 +287,7 @@ export default function WorkUpdatesAdminPage() {
                       {selectedUpdate.blockers && (
                         <div className="space-y-2">
                           <h3 className="text-xs font-bold text-rose-400 uppercase tracking-widest">Blockers & Issues</h3>
-                          <div className="p-4 bg-rose-500/5 rounded-2xl text-sm leading-relaxed border border-rose-500/10">
+                          <div className="p-4 bg-rose-500/5 rounded-[24px] text-sm leading-relaxed border border-rose-500/10">
                             {selectedUpdate.blockers}
                           </div>
                         </div>
@@ -295,7 +295,7 @@ export default function WorkUpdatesAdminPage() {
 
                       <div className="space-y-2">
                         <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Next Day Plan</h3>
-                        <div className="p-4 bg-muted/20 rounded-2xl text-sm leading-relaxed border border-white/5 italic text-slate-400">
+                        <div className="p-4 bg-muted/20 rounded-[24px] text-sm leading-relaxed border border-white/5 italic text-slate-400">
                           {selectedUpdate.nextDayPlan || "No plan provided."}
                         </div>
                       </div>
@@ -304,8 +304,8 @@ export default function WorkUpdatesAdminPage() {
                 </div>
               </div>
             ) : (
-              <div className="glass-card rounded-3xl border border-white/5 p-12 flex flex-col items-center text-center space-y-4 h-[500px] justify-center">
-                <div className="w-16 h-16 rounded-2xl bg-muted/50 flex items-center justify-center">
+              <div className=" rounded-3xl border border-white/5 p-12 flex flex-col items-center text-center space-y-4 h-[500px] justify-center">
+                <div className="w-16 h-16 rounded-[24px] bg-muted/50 flex items-center justify-center">
                   <User className="w-8 h-8 text-muted-foreground/50" />
                 </div>
                 <div>

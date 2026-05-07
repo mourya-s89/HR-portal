@@ -20,7 +20,7 @@ export default function SOPPage() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
-        <h1 className="text-3xl font-bold gradient-text">SOP Library</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">SOP Library</h1>
         <p className="text-muted-foreground mt-1">Standard Operating Procedures by department. Your go-to reference guide.</p>
       </div>
 
@@ -28,21 +28,21 @@ export default function SOPPage() {
         <div className="relative flex-1">
           <Search className="absolute left-4 top-3.5 w-4 h-4 text-muted-foreground" />
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search SOPs..."
-            className="w-full bg-muted/30 border border-white/10 rounded-2xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
+            className="w-full bg-muted/30 border border-white/10 rounded-[24px] pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
         </div>
         <select value={dept} onChange={e => setDept(e.target.value)}
-          className="bg-muted/30 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50">
+          className="bg-muted/30 border border-white/10 rounded-[24px] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50">
           {departments.map(d => <option key={d}>{d}</option>)}
         </select>
       </div>
 
       <div className="space-y-4">
         {filtered.map((sop, i) => (
-          <div key={i} className="glass-card rounded-3xl border border-white/5 overflow-hidden">
+          <div key={i} className=" rounded-3xl border border-white/5 overflow-hidden">
             <button onClick={() => setExpanded(expanded===sop._id ? null : sop._id)}
               className="w-full flex items-start justify-between gap-4 p-6 text-left hover:bg-muted/20 transition-colors">
               <div className="flex items-start gap-4">
-                <div className="p-2.5 rounded-2xl bg-muted/40 shrink-0 mt-0.5"><FileText className="w-5 h-5 text-violet-400"/></div>
+                <div className="p-2.5 rounded-[24px] bg-muted/40 shrink-0 mt-0.5"><FileText className="w-5 h-5 text-violet-400"/></div>
                 <div className="space-y-1.5">
                   <p className="font-bold">{sop.title}</p>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -65,7 +65,7 @@ export default function SOPPage() {
             </button>
             {expanded === sop._id && (
               <div className="px-6 pb-6 border-t border-white/5">
-                <div className="mt-4 p-5 rounded-2xl bg-muted/20 text-sm leading-relaxed whitespace-pre-wrap font-mono">{sop.content}</div>
+                <div className="mt-4 p-5 rounded-[24px] bg-muted/20 text-sm leading-relaxed whitespace-pre-wrap font-mono">{sop.content}</div>
                 <p className="text-xs text-muted-foreground mt-3">Posted by {sop.postedBy?.name || "HR"}</p>
               </div>
             )}

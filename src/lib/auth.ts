@@ -10,6 +10,14 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -52,41 +60,59 @@ export const authOptions: NextAuthOptions = {
           console.log("SignIn Callback - Access Denied for:", user.email);
           return "/login?error=AccessDenied";
         }
+
+        // Persist Google profile image if not already set
+        if (!existingUser.avatar && user.image) {
+          existingUser.avatar = user.image;
+          await existingUser.save();
+        }
+
         return true;
       }
       return true;
     },
     async jwt({ token, user, account }) {
-      if (account?.provider === "google" && user?.email) {
+      // First time user signs in, capture all info from provider
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+        token.picture = user.image;
+        token.avatar = (user as any).avatar;
+      }
+
+      // Merge with database info
+      if (token.email) {
         await connectToDatabase();
-        const dbUser = await User.findOne({ email: user.email });
+        const dbUser = await User.findOne({ email: token.email });
         if (dbUser) {
-          token.role = dbUser.role;
           token.id = dbUser._id.toString();
+          token.role = dbUser.role;
           token.employeeId = dbUser.employeeId;
           token.department = dbUser.department;
           token.designation = dbUser.designation;
-          token.avatar = dbUser.avatar || user.image;
+          // Use DB avatar if exists, else use provider image
+          token.avatar = dbUser.avatar;
+          token.picture = dbUser.avatar || token.picture;
         }
-      } else if (user) {
-        token.role = (user as any).role;
-        token.id = user.id;
-        token.employeeId = (user as any).employeeId;
-        token.department = (user as any).department;
-        token.designation = (user as any).designation;
-        token.avatar = (user as any).avatar;
       }
+      
+      console.log("JWT Callback - Final picture URL:", token.picture ? "Present" : "Missing");
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        (session.user as any).role = token.role;
         (session.user as any).id = token.id;
+        (session.user as any).role = token.role;
         (session.user as any).employeeId = token.employeeId;
         (session.user as any).department = token.department;
         (session.user as any).designation = token.designation;
         (session.user as any).avatar = token.avatar;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture as string;
       }
+      console.log("Session Callback - User Image URL:", session.user?.image ? "Found" : "Not Found");
       return session;
     },
   },

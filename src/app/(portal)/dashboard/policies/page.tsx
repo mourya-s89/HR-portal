@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { BookOpen, ChevronDown, ChevronUp } from "lucide-react";
 import { formatDate, cn } from "@/lib/utils";
 
-const CAT_COLORS: Record<string,string> = { "HR Policy":"bg-indigo-500/10 text-indigo-400", "Code of Conduct":"bg-rose-500/10 text-rose-400", "IT Policy":"bg-cyan-500/10 text-cyan-400", "Leave Policy":"bg-emerald-500/10 text-emerald-400", "Other":"bg-muted/50 text-muted-foreground" };
+const CAT_COLORS: Record<string,string> = { "HR Policy":"bg-[#1E6DEB]/10 text-indigo-400", "Code of Conduct":"bg-rose-500/10 text-rose-400", "IT Policy":"bg-cyan-500/10 text-cyan-400", "Leave Policy":"bg-emerald-500/10 text-emerald-400", "Other":"bg-muted/50 text-muted-foreground" };
 
 export default function PoliciesPage() {
   const [policies, setPolicies] = useState<any[]>([]);
@@ -18,13 +18,13 @@ export default function PoliciesPage() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
-        <h1 className="text-3xl font-bold gradient-text">Company Policies</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Company Policies</h1>
         <p className="text-muted-foreground mt-1">Official company policies, guidelines and code of conduct.</p>
       </div>
       <div className="flex gap-2 flex-wrap">
         {categories.map(c => (
           <button key={c} onClick={() => setFilter(c)}
-            className={cn("px-4 py-2 rounded-2xl text-sm font-medium transition-all",
+            className={cn("px-4 py-2 rounded-[24px] text-sm font-medium transition-all",
               filter===c ? "bg-primary text-primary-foreground" : "bg-muted/40 text-muted-foreground hover:bg-muted/60")}>
             {c}
           </button>
@@ -32,11 +32,11 @@ export default function PoliciesPage() {
       </div>
       <div className="space-y-4">
         {filtered.map((policy, i) => (
-          <div key={i} className="glass-card rounded-3xl border border-white/5 overflow-hidden">
+          <div key={i} className=" rounded-3xl border border-white/5 overflow-hidden">
             <button onClick={() => setExpanded(expanded === policy._id ? null : policy._id)}
               className="w-full flex items-start justify-between gap-4 p-6 text-left hover:bg-muted/20 transition-colors">
               <div className="flex items-start gap-4">
-                <div className="p-2.5 rounded-2xl bg-muted/40 shrink-0 mt-0.5"><BookOpen className="w-5 h-5 text-indigo-400" /></div>
+                <div className="p-2.5 rounded-[24px] bg-muted/40 shrink-0 mt-0.5"><BookOpen className="w-5 h-5 text-indigo-400" /></div>
                 <div className="space-y-1.5">
                   <p className="font-bold">{policy.title}</p>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -50,7 +50,7 @@ export default function PoliciesPage() {
             </button>
             {expanded === policy._id && (
               <div className="px-6 pb-6 border-t border-white/5">
-                <div className="mt-4 p-5 rounded-2xl bg-muted/20 text-sm leading-relaxed whitespace-pre-wrap">{policy.content}</div>
+                <div className="mt-4 p-5 rounded-[24px] bg-muted/20 text-sm leading-relaxed whitespace-pre-wrap">{policy.content}</div>
               </div>
             )}
           </div>

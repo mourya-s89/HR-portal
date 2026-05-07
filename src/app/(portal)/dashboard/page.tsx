@@ -4,7 +4,8 @@ import { useSession } from "next-auth/react";
 import {
   Clock, Calendar, AlertCircle, CheckCircle2,
   TrendingUp, ArrowUpRight, Megaphone,
-  Briefcase, Coffee, Video
+  Briefcase, Coffee, Video, Users, Activity,
+  User, ShieldCheck
 } from "lucide-react";
 import { cn, formatTime } from "@/lib/utils";
 import Link from "next/link";
@@ -84,6 +85,8 @@ export default function Dashboard() {
   const { data: session } = useSession();
   const [stats] = useState({ presentDays: 18, absentDays: 1, lopDays: 0.5, clBalance: 1 });
   const [today, setToday] = useState<any>(null);
+  const [team, setTeam] = useState<any>(null);
+  const [updates, setUpdates] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -93,7 +96,22 @@ export default function Dashboard() {
         if (data.today) setToday(data.today);
       } catch (error) {}
     };
+    
+    const fetchDashboardData = async () => {
+       try {
+          const [teamRes, updatesRes] = await Promise.all([
+             fetch("/api/team"),
+             fetch("/api/work-updates")
+          ]);
+          const teamData = await teamRes.json();
+          const updatesData = await updatesRes.json();
+          setTeam(teamData);
+          setUpdates(updatesData.updates || []);
+       } catch (error) {}
+    };
+
     fetchAttendance();
+    fetchDashboardData();
   }, []);
 
   // Time based greeting
@@ -133,9 +151,9 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Col: Work Log Panel */}
-        <div className="lg:col-span-2 space-y-8">
-           <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 md:p-10 border border-slate-200/60 shadow-sm relative overflow-hidden">
+        {/* Work Log Panel */}
+        <div className="lg:col-span-2">
+           <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 md:p-10 border border-slate-200/60 shadow-sm relative overflow-hidden h-full">
              
              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
                 <h2 className="text-xl font-extrabold text-slate-900 flex items-center gap-3">
@@ -210,9 +228,55 @@ export default function Dashboard() {
                 </div>
              </div>
            </div>
+        </div>
 
-           {/* Announcements */}
-           <div className="space-y-6 pt-2">
+        {/* Right Col: Communication Panel */}
+        <div className="lg:col-span-1">
+           <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm flex flex-col h-full relative overflow-hidden group hover:border-indigo-200 transition-colors duration-500">
+              <div className="flex items-center justify-between mb-8">
+                 <h2 className="text-lg font-extrabold text-slate-900">Communication</h2>
+                 <span className="px-3 py-1 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-[10px] text-[10px] font-black uppercase tracking-widest">Connected</span>
+              </div>
+
+              <div className="space-y-3">
+                 <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group">
+                    <div className="w-10 h-10 shadow-sm rounded border border-slate-100 flex items-center justify-center bg-white p-2">
+                       <img src="/images/google/gmail.png" alt="Gmail" className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex-1">
+                       <p className="text-[14px] font-semibold text-slate-900 leading-none mb-1">Gmail</p>
+                       <p className="text-[12px] text-slate-500">Check your inbox</p>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-slate-400 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"/>
+                 </a>
+
+                 <a href="https://chat.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group">
+                    <div className="w-10 h-10 shadow-sm rounded border border-slate-100 flex items-center justify-center bg-white p-2">
+                       <img src="/images/google/gchat.png" alt="Google Chat" className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex-1">
+                       <p className="text-[14px] font-semibold text-slate-900 leading-none mb-1">Google Chat</p>
+                       <p className="text-[12px] text-slate-500">Message the team</p>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-slate-400 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"/>
+                 </a>
+
+                 <a href="https://meet.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group">
+                    <div className="w-10 h-10 shadow-sm rounded border border-slate-100 flex items-center justify-center bg-white p-2">
+                       <img src="/images/google/gmeet.png" alt="Google Meet" className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex-1">
+                       <p className="text-[14px] font-semibold text-slate-900 leading-none mb-1">Google Meet</p>
+                       <p className="text-[12px] text-slate-500">Start video conference</p>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-slate-400 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"/>
+                 </a>
+              </div>
+           </div>
+        </div>
+
+        {/* Announcements row */}
+        <div className="lg:col-span-2 space-y-6 pt-2">
               <h2 className="text-xl font-extrabold flex items-center gap-3 text-slate-900">
                  <span className="p-2.5 bg-violet-50 rounded-[14px]"><Megaphone className="w-5 h-5 text-violet-600" /></span>
                  Announcements
@@ -237,69 +301,96 @@ export default function Dashboard() {
                     </div>
                  </div>
               </div>
+        </div>
+
+        {/* My Team Panel */}
+        <div className="lg:col-span-1">
+           <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm flex flex-col h-full relative overflow-hidden group hover:border-indigo-200 transition-colors duration-500">
+              <div className="flex items-center justify-between mb-8">
+                 <h2 className="text-lg font-extrabold text-slate-900">My Team</h2>
+                 <span className="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-[10px] text-[10px] font-black uppercase tracking-widest">{team?.name || "Collaborators"}</span>
+              </div>
+
+              <div className="space-y-3">
+                 {team?.members?.slice(0, 3).map((member: any, idx: number) => (
+                    <div key={idx} className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group">
+                       <div className="w-10 h-10 shadow-sm rounded-full border border-slate-100 flex items-center justify-center bg-white overflow-hidden shrink-0">
+                          {member.avatar ? (
+                             <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                          ) : (
+                             <Users className="w-5 h-5 text-indigo-500" />
+                          )}
+                       </div>
+                       <div className="flex-1">
+                          <p className="text-[14px] font-semibold text-slate-900 leading-none mb-1">{member.name}</p>
+                          <p className="text-[12px] text-slate-500">{member.designation || "Team Member"}</p>
+                       </div>
+                       <span className={cn(
+                          "w-2 h-2 rounded-full",
+                          member.status === "Available" ? "bg-emerald-500" : "bg-slate-300"
+                       )} />
+                    </div>
+                 ))}
+                 {!team?.members?.length && (
+                    <p className="text-xs text-slate-400 font-medium text-center py-4">No team members assigned yet.</p>
+                 )}
+              </div>
            </div>
         </div>
 
-        {/* Right Col: Communication Panel */}
-        <div className="space-y-6">
-           <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm flex flex-col h-full relative overflow-hidden group hover:border-indigo-200 transition-colors duration-500">
-              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 via-blue-500 to-green-500 opacity-80 group-hover:opacity-100 transition-opacity" />
-              
+        {/* Third Row: Tasks and Work Updates */}
+        <div className="lg:col-span-2 space-y-6 pt-2">
+           <h2 className="text-xl font-extrabold flex items-center gap-3 text-slate-900">
+              <span className="p-2.5 bg-amber-50 rounded-[14px]"><Briefcase className="w-5 h-5 text-amber-600" /></span>
+              Active Tasks
+           </h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-5 rounded-[24px] bg-white border border-slate-200/60 shadow-sm flex flex-col gap-3">
+                 <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest px-2 py-0.5 bg-amber-50 rounded-md">In Progress</span>
+                    <span className="text-[10px] font-bold text-slate-400">Due in 2 days</span>
+                 </div>
+                 <p className="text-sm font-extrabold text-slate-900">Finalize Q2 Performance Report</p>
+                 <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-amber-500 h-full w-[65%]" />
+                 </div>
+              </div>
+              <div className="p-5 rounded-[24px] bg-white border border-slate-200/60 shadow-sm flex flex-col gap-3">
+                 <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest px-2 py-0.5 bg-indigo-50 rounded-md">Planning</span>
+                    <span className="text-[10px] font-bold text-slate-400">Due next week</span>
+                 </div>
+                 <p className="text-sm font-extrabold text-slate-900">Team Building Workshop Logistics</p>
+                 <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-indigo-500 h-full w-[25%]" />
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        <div className="lg:col-span-1">
+           <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm flex flex-col h-full relative overflow-hidden group hover:border-emerald-200 transition-colors duration-500">
               <div className="flex items-center justify-between mb-8">
-                 <h2 className="text-lg font-extrabold text-slate-900">Communication</h2>
-                 <span className="px-3 py-1 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-[10px] text-[10px] font-black uppercase tracking-widest">Connected</span>
+                 <h2 className="text-lg font-extrabold text-slate-900">Work Updates</h2>
+                 <span className="px-3 py-1 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-[10px] text-[10px] font-black uppercase tracking-widest">Latest</span>
               </div>
 
-              {/* Gmail Link */}
-              <a 
-                href="https://mail.google.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="p-6 rounded-[24px] bg-white border border-slate-100 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_-8px_rgba(234,67,53,0.3)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden mb-4 group/item flex items-center gap-4"
-              >
-                 <div className="p-3 bg-red-50 rounded-[14px] text-red-500 group-hover/item:bg-red-500 group-hover/item:text-white transition-all">
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                      <polyline points="22,6 12,13 2,6" />
-                    </svg>
-                 </div>
-                 <div className="flex-1 min-w-0">
-                    <p className="text-[15px] font-extrabold text-slate-900 tracking-tight">Gmail</p>
-                    <p className="text-xs font-semibold text-slate-400 mt-0.5">Check your inbox</p>
-                 </div>
-                 <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover/item:text-red-500 group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all" />
-              </a>
-
-              {/* Google Chat Link */}
-              <a 
-                href="https://chat.google.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="p-6 rounded-[24px] bg-white border border-slate-100 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_-8px_rgba(66,133,244,0.3)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden mb-8 group/item flex items-center gap-4"
-              >
-                 <div className="p-3 bg-blue-50 rounded-[14px] text-blue-500 group-hover/item:bg-blue-500 group-hover/item:text-white transition-all">
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2.5 7.5z" />
-                    </svg>
-                 </div>
-                 <div className="flex-1 min-w-0">
-                    <p className="text-[15px] font-extrabold text-slate-900 tracking-tight">Google Chat</p>
-                    <p className="text-xs font-semibold text-slate-400 mt-0.5">Message team</p>
-                 </div>
-                 <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover/item:text-blue-500 group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all" />
-              </a>
-
-              <div className="mt-auto p-5 rounded-[22px] bg-slate-50 border border-slate-100/80 flex flex-col gap-3">
-                 <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center">Video Conferencing</p>
-                 <a 
-                    href="https://meet.google.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-full py-3 rounded-xl bg-slate-900 text-white text-[13px] font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg"
-                 >
-                    <Video className="w-4 h-4" />
-                    Start Google Meet
-                 </a>
+              <div className="space-y-3">
+                 {updates.slice(0, 3).map((update: any, idx: number) => (
+                    <div key={idx} className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group">
+                       <div className="w-10 h-10 shadow-sm rounded border border-slate-100 flex items-center justify-center bg-white p-2">
+                          <Activity className="w-5 h-5 text-emerald-500" />
+                       </div>
+                       <div className="flex-1">
+                          <p className="text-[14px] font-semibold text-slate-900 leading-none mb-1 truncate max-w-[150px]">{update.tasksCompleted}</p>
+                          <p className="text-[12px] text-slate-500">{new Date(update.date).toLocaleDateString()}</p>
+                       </div>
+                       <span className="text-[10px] font-bold text-emerald-600">{update.hoursSpent}h</span>
+                    </div>
+                 ))}
+                 {!updates.length && (
+                    <p className="text-xs text-slate-400 font-medium text-center py-4">No recent updates logged.</p>
+                 )}
               </div>
            </div>
         </div>

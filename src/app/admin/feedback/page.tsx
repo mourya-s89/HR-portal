@@ -51,7 +51,7 @@ export default function FeedbackAdminPage() {
 
   const getCategoryColor = (cat: string) => {
     switch(cat) {
-      case "Management": return "bg-indigo-50 text-indigo-600 border-indigo-100";
+      case "Management": return "bg-[#EDF2FE] text-[#1E6DEB] border-[#EDF2FE]";
       case "Work Environment": return "bg-emerald-50 text-emerald-600 border-emerald-100";
       case "Team": return "bg-amber-50 text-amber-600 border-amber-100";
       case "Process": return "bg-violet-50 text-violet-600 border-violet-100";
@@ -63,12 +63,12 @@ export default function FeedbackAdminPage() {
     <div className="space-y-8 animate-fade-in-up pb-20">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold gradient-text">Feedback Center</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Feedback Center</h1>
           <p className="text-muted-foreground mt-1 font-medium">Monitoring employee sentiment and organizational health.</p>
         </div>
         <button 
           onClick={fetchData}
-          className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white border border-slate-200 text-slate-600 font-bold shadow-sm hover:bg-slate-50 transition-all active:scale-95 text-sm"
+          className="flex items-center gap-2 px-6 py-3 rounded-[24px] bg-white border border-slate-100 text-slate-600 font-bold shadow-sm hover:bg-slate-50 transition-all active:scale-95 text-sm"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <MessageSquare className="w-4 h-4" />}
           Refresh Inbox
@@ -77,31 +77,31 @@ export default function FeedbackAdminPage() {
 
       {/* Stats Bar */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="glass-card p-6 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm flex items-center gap-5">
-           <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center shadow-inner">
+        <div className=" p-6 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm flex items-center gap-5">
+           <div className="w-14 h-14 rounded-[24px] bg-[#EDF2FE] text-[#1E6DEB] flex items-center justify-center shadow-inner">
               <MessageSquare className="w-7 h-7" />
            </div>
            <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Total Submissions</p>
-              <p className="text-2xl font-black text-slate-800 leading-none">{feedbacks.length}</p>
+              <p className="text-2xl font-black text-[#111827] leading-none">{feedbacks.length}</p>
            </div>
         </div>
-        <div className="glass-card p-6 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm flex items-center gap-5">
-           <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center shadow-inner">
+        <div className=" p-6 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm flex items-center gap-5">
+           <div className="w-14 h-14 rounded-[24px] bg-amber-50 text-amber-500 flex items-center justify-center shadow-inner">
               <UserRoundX className="w-7 h-7" />
            </div>
            <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Anonymous</p>
-              <p className="text-2xl font-black text-slate-800 leading-none">{feedbacks.filter(f => f.isAnonymous).length}</p>
+              <p className="text-2xl font-black text-[#111827] leading-none">{feedbacks.filter(f => f.isAnonymous).length}</p>
            </div>
         </div>
-        <div className="glass-card p-6 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm flex items-center gap-5">
-           <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center shadow-inner">
+        <div className=" p-6 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm flex items-center gap-5">
+           <div className="w-14 h-14 rounded-[24px] bg-emerald-50 text-emerald-500 flex items-center justify-center shadow-inner">
               <UserRoundCheck className="w-7 h-7" />
            </div>
            <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Average Rating</p>
-              <p className="text-2xl font-black text-slate-800 leading-none">
+              <p className="text-2xl font-black text-[#111827] leading-none">
                  {(feedbacks.reduce((acc, f) => acc + f.rating, 0) / (feedbacks.length || 1)).toFixed(1)} / 5
               </p>
            </div>
@@ -117,17 +117,17 @@ export default function FeedbackAdminPage() {
             placeholder="Search feedback content or author..." 
             value={search} 
             onChange={e => setSearch(e.target.value)}
-            className="w-full bg-white border border-slate-200 rounded-[28px] pl-12 pr-6 py-4.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm font-medium"
+            className="w-full bg-white border border-slate-100 rounded-[28px] pl-12 pr-6 py-4.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#EDF2FE] shadow-sm font-medium"
           />
         </div>
-        <div className="flex gap-2 p-1.5 bg-white border border-slate-200 rounded-[24px] shadow-sm overflow-x-auto">
+        <div className="flex gap-2 p-1.5 bg-white border border-slate-100 rounded-[24px] shadow-sm overflow-x-auto">
           {["All", "Management", "Work Environment", "Team", "Process", "Anonymous"].map(cat => (
              <button 
                key={cat} 
                onClick={() => setFilter(cat)}
                className={cn(
                  "px-5 py-2.5 rounded-[18px] text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap",
-                 filter === cat ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-800 hover:bg-slate-50"
+                 filter === cat ? "bg-[#111827] text-white shadow-lg" : "text-slate-400 hover:text-[#111827] hover:bg-slate-50"
                )}
              >
                {cat}
@@ -140,21 +140,21 @@ export default function FeedbackAdminPage() {
       <div className="grid grid-cols-1 gap-6">
         {loading ? (
            Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="glass-card h-40 rounded-[32px] animate-pulse bg-white/50 border border-slate-100" />
+              <div key={i} className=" h-40 rounded-[32px] animate-pulse bg-white/50 border border-slate-100" />
            ))
         ) : filteredFeedbacks.length > 0 ? (
           filteredFeedbacks.map((fb) => (
-            <div key={fb._id} className="glass-card group p-8 rounded-[40px] border border-slate-100 bg-white hover:border-indigo-100 transition-all shadow-sm hover:shadow-xl relative overflow-hidden">
+            <div key={fb._id} className=" group p-8 rounded-[40px] border border-slate-100 bg-white hover:border-[#EDF2FE] transition-all shadow-sm hover:shadow-xl relative overflow-hidden">
                <div className="flex flex-col md:flex-row gap-8">
                   <div className="flex flex-row md:flex-col items-center md:items-start gap-4 shrink-0">
                      <div className={cn(
                         "w-16 h-16 rounded-3xl flex items-center justify-center font-black text-xl shadow-inner transition-all",
-                        fb.isAnonymous ? "bg-slate-900 text-white" : "bg-indigo-50 text-indigo-600"
+                        fb.isAnonymous ? "bg-[#111827] text-white" : "bg-[#EDF2FE] text-[#1E6DEB]"
                      )}>
                         {fb.isAnonymous ? "?" : (fb.fromUser?.name?.[0] || "U")}
                      </div>
                      <div className="md:text-left">
-                        <p className="font-extrabold text-slate-800 leading-tight">
+                        <p className="font-extrabold text-[#111827] leading-tight">
                            {fb.isAnonymous ? "Anonymous User" : (fb.fromUser?.name || "Unknown")}
                         </p>
                         <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">
@@ -165,7 +165,7 @@ export default function FeedbackAdminPage() {
 
                   <div className="flex-1 space-y-4">
                      <div className="flex items-center flex-wrap gap-3">
-                        <span className={cn("px-3 py-1.5 rounded-xl border text-[10px] font-black uppercase tracking-widest", getCategoryColor(fb.category))}>
+                        <span className={cn("px-3 py-1.5 rounded-2xl border text-[10px] font-black uppercase tracking-widest", getCategoryColor(fb.category))}>
                            {fb.category}
                         </span>
                         <div className="flex items-center gap-1 text-xs text-slate-400 font-bold">
@@ -182,7 +182,7 @@ export default function FeedbackAdminPage() {
                   <div className="flex flex-row md:flex-col justify-end gap-3 shrink-0">
                      <button 
                         onClick={() => deleteFeedback(fb._id)}
-                        className="p-3.5 rounded-2xl bg-slate-50 text-slate-400 hover:bg-rose-500 hover:text-white transition-all shadow-sm"
+                        className="p-3.5 rounded-[24px] bg-slate-50 text-slate-400 hover:bg-rose-500 hover:text-white transition-all shadow-sm"
                         title="Delete Feedback"
                      >
                         <Trash2 className="w-5 h-5" />
@@ -192,8 +192,8 @@ export default function FeedbackAdminPage() {
             </div>
           ))
         ) : (
-          <div className="py-32 text-center bg-slate-50/50 rounded-[60px] border-2 border-dashed border-slate-200 flex flex-col items-center">
-             <div className="w-20 h-20 rounded-[2rem] bg-indigo-50 flex items-center justify-center mb-6">
+          <div className="py-32 text-center bg-slate-50 rounded-[60px] border-2 border-dashed border-slate-100 flex flex-col items-center">
+             <div className="w-20 h-20 rounded-[2rem] bg-[#EDF2FE] flex items-center justify-center mb-6">
                 <Flag className="w-10 h-10 text-indigo-300" />
              </div>
              <h3 className="text-slate-600 text-xl font-black">Private Inbox Empty</h3>

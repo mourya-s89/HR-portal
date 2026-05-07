@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 
@@ -28,5 +28,6 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/login"],
+  // Exclude NextAuth API routes, Next.js internals, and static files from being intercepted
+  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
 };

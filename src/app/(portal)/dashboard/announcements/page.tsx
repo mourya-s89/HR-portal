@@ -5,7 +5,7 @@ import { cn, formatDate } from "@/lib/utils";
 
 const PRIORITY_STYLE: Record<string,string> = {
   Urgent: "bg-red-500/10 text-red-400 border-red-500/20",
-  General: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+  General: "bg-[#1E6DEB]/10 text-indigo-400 border-[#1E6DEB]/20",
   Event: "bg-violet-500/10 text-violet-400 border-violet-500/20",
 };
 
@@ -24,7 +24,7 @@ export default function AnnouncementsPage() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
-        <h1 className="text-3xl font-bold gradient-text">Announcements</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Announcements</h1>
         <p className="text-muted-foreground mt-1">Stay informed with the latest company news and updates.</p>
       </div>
 
@@ -32,7 +32,7 @@ export default function AnnouncementsPage() {
       <div className="flex gap-2 flex-wrap">
         {["All","Urgent","General","Event"].map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            className={cn("px-4 py-2 rounded-2xl text-sm font-medium transition-all",
+            className={cn("px-4 py-2 rounded-[24px] text-sm font-medium transition-all",
               filter === f ? "bg-primary text-primary-foreground shadow-md" : "bg-muted/40 text-muted-foreground hover:bg-muted/60")}>
             {f}
           </button>
@@ -44,7 +44,7 @@ export default function AnnouncementsPage() {
         <div className="space-y-3">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2"><Pin className="w-3 h-3" /> Pinned</p>
           {filtered.filter(a => a.pinned).map((a, i) => (
-            <div key={i} className={cn("p-6 rounded-3xl border glass-card", PRIORITY_STYLE[a.priority])}>
+            <div key={i} className={cn("p-6 rounded-3xl border ", PRIORITY_STYLE[a.priority])}>
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="space-y-2 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -69,7 +69,7 @@ export default function AnnouncementsPage() {
         <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">All Announcements</p>
         <div className="space-y-3">
           {filtered.filter(a => !a.pinned).map((a, i) => (
-            <div key={i} className="glass-card p-6 rounded-3xl border border-white/5 hover:border-white/10 transition-all group">
+            <div key={i} className=" p-6 rounded-3xl border border-white/5 hover:border-white/10 transition-all group">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-2 flex-1">
                   <div className="flex items-center gap-2">

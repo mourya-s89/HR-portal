@@ -42,7 +42,7 @@ function MonthCalendar({ records }: { records: any[] }) {
         {days.map(d => {
           const isToday = d === today.getDate();
           return (
-            <div key={d} className={cn("aspect-square flex items-center justify-center rounded-xl text-xs font-medium transition-all", statusColor(statusMap[d]), isToday && "ring-2 ring-primary")}>
+            <div key={d} className={cn("aspect-square flex items-center justify-center rounded-2xl text-xs font-medium transition-all", statusColor(statusMap[d]), isToday && "ring-2 ring-primary")}>
               {d}
             </div>
           );
@@ -164,13 +164,13 @@ export default function AttendancePage() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
-        <h1 className="text-3xl font-bold gradient-text">Attendance</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Attendance</h1>
         <p className="text-muted-foreground mt-1">Office hours: 9:30 AM – 6:30 PM. Late arrivals attract half-day LOP.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Check-in/out Card */}
-        <div className="glass-card rounded-[2.5rem] p-8 border border-white/5 space-y-6">
+        <div className=" rounded-[2.5rem] p-8 border border-white/5 space-y-6">
           <div className="text-center space-y-1">
             <p className="text-6xl font-mono font-bold text-foreground tracking-tight" suppressHydrationWarning>
               {liveTime ? liveTime.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "--:--:--"}
@@ -181,7 +181,7 @@ export default function AttendancePage() {
           </div>
 
           {/* Location indicator */}
-          <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-muted/30 border border-white/5">
+          <div className="flex items-center gap-2 px-4 py-3 rounded-[24px] bg-muted/30 border border-white/5">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <MapPin className="w-4 h-4 text-indigo-400 shrink-0" />
               <span className="truncate">{locationLabel || "Location will be captured on check-in"}</span>
@@ -189,25 +189,25 @@ export default function AttendancePage() {
           </div>
 
           {today?.isLate && (
-            <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-medium">
+            <div className="flex items-center gap-2 px-4 py-3 rounded-[24px] bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-medium">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               Late arrival detected — Half-day LOP has been applied.
             </div>
           )}
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-muted/30 border border-white/5 text-center space-y-1">
+            <div className="p-4 rounded-[24px] bg-muted/30 border border-white/5 text-center space-y-1">
               <p className="text-xs text-muted-foreground">Check In</p>
               <p className="text-lg font-bold font-mono">{today?.checkIn ? formatTime(today.checkIn) : "--:--"}</p>
             </div>
-            <div className="p-4 rounded-2xl bg-muted/30 border border-white/5 text-center space-y-1">
+            <div className="p-4 rounded-[24px] bg-muted/30 border border-white/5 text-center space-y-1">
               <p className="text-xs text-muted-foreground">Check Out</p>
               <p className="text-lg font-bold font-mono">{today?.checkOut ? formatTime(today.checkOut) : "--:--"}</p>
             </div>
           </div>
 
           {checked_in && today.totalHours && (
-            <div className="text-center p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-bold">
+            <div className="text-center p-3 rounded-[24px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-bold">
               Total: {today.totalHours}h worked today 🎉
             </div>
           )}
@@ -217,7 +217,7 @@ export default function AttendancePage() {
               onClick={handleCheckIn}
               disabled={checked_in || loading}
               className={cn(
-                "w-full py-4 rounded-2xl font-bold text-white transition-all active:scale-95",
+                "w-full py-4 rounded-[24px] font-bold text-white transition-all active:scale-95",
                 !checked_in
                   ? "bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg shadow-emerald-500/20 hover:opacity-90"
                   : "bg-muted/50 text-muted-foreground cursor-not-allowed"
@@ -229,7 +229,7 @@ export default function AttendancePage() {
               onClick={handleCheckOut}
               disabled={!checked_in || checked_out || loading}
               className={cn(
-                "w-full py-4 rounded-2xl font-bold transition-all active:scale-95",
+                "w-full py-4 rounded-[24px] font-bold transition-all active:scale-95",
                 checked_in && !checked_out
                   ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg shadow-red-500/20 hover:opacity-90"
                   : "bg-muted/50 text-muted-foreground border border-white/10 cursor-not-allowed"
@@ -241,8 +241,8 @@ export default function AttendancePage() {
         </div>
 
         {/* Monthly Calendar */}
-        <div className="glass-card rounded-[2.5rem] p-8 border border-white/5 space-y-6">
-          <h2 className="text-xl font-bold flex items-center gap-2">
+        <div className=" rounded-[2.5rem] p-8 border border-white/5 space-y-6">
+          <h2 className="text-xl font-extrabold tracking-tight flex items-center gap-2">
             <Calendar className="w-5 h-5 text-indigo-400" />
             Monthly Overview
           </h2>
@@ -256,7 +256,7 @@ export default function AttendancePage() {
               { label: "Late Logins", value: records.filter(r => r.isLate).length, color: "text-yellow-400" },
             ].map(s => (
               <div key={s.label} className="text-center">
-                <p className={cn("text-2xl font-bold", s.color)}>{s.value}</p>
+                <p className={cn("text-2xl font-extrabold tracking-tight", s.color)}>{s.value}</p>
                 <p className="text-[10px] text-muted-foreground font-medium">{s.label}</p>
               </div>
             ))}
@@ -265,7 +265,7 @@ export default function AttendancePage() {
       </div>
 
       {/* Recent Log */}
-      <div className="glass-card rounded-[2.5rem] p-8 border border-white/5 space-y-4">
+      <div className=" rounded-[2.5rem] p-8 border border-white/5 space-y-4">
         <h2 className="text-lg font-bold">Recent Log</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

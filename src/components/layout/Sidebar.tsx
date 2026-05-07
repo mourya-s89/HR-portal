@@ -23,6 +23,7 @@ const adminNav = [
   { label: "Feedback", href: "/admin/feedback", icon: MessageSquare },
   { label: "Exit Interviews", href: "/admin/exit-interviews", icon: UserX },
   { label: "Documents", href: "/admin/documents", icon: FolderOpen },
+  { label: "Teams", href: "/admin/teams", icon: Users },
   { label: "Payslips", href: "/admin/payslips", icon: Receipt },
   { label: "Policies", href: "/admin/policies", icon: BookOpen },
   { label: "Calendar", href: "/admin/calendar", icon: CalendarDays },
@@ -39,6 +40,7 @@ const employeeNav = [
   { label: "Feedback", href: "/dashboard/feedback", icon: MessageSquare },
   { label: "Exit Interview", href: "/dashboard/exit-interview", icon: UserX },
   { label: "Documents", href: "/dashboard/documents", icon: FolderOpen },
+  { label: "My Team", href: "/team", icon: Users },
   { label: "Payslips", href: "/dashboard/payslips", icon: Receipt },
   { label: "Policies", href: "/dashboard/policies", icon: BookOpen },
   { label: "Calendar", href: "/dashboard/calendar", icon: CalendarDays },
@@ -52,17 +54,17 @@ const NavItem = React.memo(({ item, isActive, isCollapsed, isSidebarOpen, onClic
     prefetch={false} // Disable prefetching to keep CPU free during navigation
     onClick={onClick}
     className={cn(
-      "flex items-center gap-3 px-3 py-3 rounded-xl text-[13px] font-bold transition-[background-color,color,box-shadow,transform] duration-150 group relative",
+      "flex items-center gap-3 px-3 py-3 rounded-xl text-[13px] font-bold transition-all duration-150 group relative",
       isActive
-        ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-sidebar-primary/20"
+        ? "bg-white text-indigo-600 shadow-md shadow-indigo-100/50 border border-indigo-100/20"
         : "text-sidebar-foreground/50 hover:bg-sidebar-accent hover:text-sidebar-foreground"
     )}
     title={isCollapsed && !isSidebarOpen ? item.label : undefined}
   >
-    <item.icon className={cn("w-4 h-4 shrink-0 transition-transform group-hover:scale-110", isActive && "scale-110 text-white")} />
+    <item.icon className={cn("w-4 h-4 shrink-0 transition-transform group-hover:scale-110", isActive ? "scale-110 text-indigo-600" : "text-sidebar-foreground/40")} />
     {(!isCollapsed || isSidebarOpen) && <span className="truncate">{item.label}</span>}
     {isActive && !isCollapsed && !isSidebarOpen && (
-       <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+       <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
     )}
   </Link>
 ));
@@ -148,10 +150,28 @@ export default function Sidebar() {
 
         {/* User footer */}
         <div className="border-t border-sidebar-border p-4 space-y-3 shrink-0 bg-sidebar-accent/30">
-          {(!isCollapsed || isSidebarOpen) && session?.user && (
-            <div className="px-1">
-              <p className="text-sidebar-foreground text-[11px] font-black truncate tracking-wide">{session.user.name}</p>
-              <p className="text-sidebar-foreground/40 text-[9px] truncate uppercase font-bold tracking-widest">{session.user.email}</p>
+          {session?.user && (
+            <div className="flex items-center gap-3 px-1">
+               <div className="w-8 h-8 rounded-lg bg-indigo-600 overflow-hidden shrink-0 border border-white/10 shadow-sm">
+                  {(session.user.image || (session.user as any).avatar) ? (
+                     <img 
+                        src={session.user.image || (session.user as any).avatar} 
+                        alt="" 
+                        className="w-full h-full object-cover" 
+                        referrerPolicy="no-referrer"
+                     />
+                  ) : (
+                     <div className="w-full h-full flex items-center justify-center text-white text-[10px] font-bold bg-gradient-to-br from-indigo-500 to-violet-600">
+                        {session.user.name?.[0]?.toUpperCase()}
+                     </div>
+                  )}
+               </div>
+               {(!isCollapsed || isSidebarOpen) && (
+                 <div className="overflow-hidden">
+                   <p className="text-sidebar-foreground text-[11px] font-black truncate tracking-wide">{session.user.name}</p>
+                   <p className="text-sidebar-foreground/40 text-[9px] truncate uppercase font-bold tracking-widest leading-none mt-0.5">{session.user.email}</p>
+                 </div>
+               )}
             </div>
           )}
           <button

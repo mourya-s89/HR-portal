@@ -24,7 +24,7 @@ export default function PerformancePage() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload?.length) {
       return (
-        <div className="glass-card p-3 rounded-2xl border border-white/10 text-xs">
+        <div className=" p-3 rounded-[24px] border border-white/10 text-xs">
           <p className="font-bold text-foreground">{label}</p>
           <p className="text-indigo-400">Rating: <b>{payload[0].value}/10</b></p>
         </div>
@@ -36,31 +36,31 @@ export default function PerformancePage() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
-        <h1 className="text-3xl font-bold gradient-text">Performance</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Performance</h1>
         <p className="text-muted-foreground mt-1">Track your monthly performance ratings, goals and manager feedback.</p>
       </div>
 
       {/* Top Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="glass-card p-6 rounded-3xl border border-white/5">
+        <div className=" p-6 rounded-3xl border border-white/5">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Current Rating</p>
           <div className="flex items-end gap-2">
-            <p className="text-4xl font-bold text-indigo-400">{latest?.rating ?? "—"}</p>
+            <p className="text-4xl font-extrabold tracking-tight text-indigo-400">{latest?.rating ?? "—"}</p>
             <p className="text-muted-foreground text-sm mb-1">/10</p>
           </div>
         </div>
-        <div className="glass-card p-6 rounded-3xl border border-white/5">
+        <div className=" p-6 rounded-3xl border border-white/5">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Avg Rating</p>
-          <p className="text-4xl font-bold text-violet-400">{avg}</p>
+          <p className="text-4xl font-extrabold tracking-tight text-violet-400">{avg}</p>
         </div>
-        <div className="glass-card p-6 rounded-3xl border border-white/5">
+        <div className=" p-6 rounded-3xl border border-white/5">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Months Tracked</p>
-          <p className="text-4xl font-bold text-emerald-400">{records.length}</p>
+          <p className="text-4xl font-extrabold tracking-tight text-emerald-400">{records.length}</p>
         </div>
       </div>
 
       {/* Chart */}
-      <div className="glass-card rounded-3xl p-8 border border-white/5">
+      <div className=" rounded-3xl p-8 border border-white/5">
         <h2 className="text-lg font-bold mb-6 flex items-center gap-2"><TrendingUp className="w-5 h-5 text-indigo-400" /> Performance Trend</h2>
         {chartData.length === 0 ? (
           <div className="h-64 flex items-center justify-center text-muted-foreground text-sm">No performance data recorded yet.</div>
@@ -86,11 +86,11 @@ export default function PerformancePage() {
       </div>
 
       {/* Monthly Records */}
-      <div className="glass-card rounded-3xl p-8 border border-white/5 space-y-6">
+      <div className=" rounded-3xl p-8 border border-white/5 space-y-6">
         <h2 className="text-lg font-bold">Monthly Reports</h2>
         <div className="space-y-4">
           {records.map((r, i) => (
-            <div key={i} className="p-6 rounded-2xl bg-muted/30 border border-white/5 space-y-4">
+            <div key={i} className="p-6 rounded-[24px] bg-muted/30 border border-white/5 space-y-4">
               <div className="flex items-center justify-between">
                 <p className="font-bold">{getMonthName(r.month)} {r.year}</p>
                 <div className="flex items-center gap-2">
@@ -101,13 +101,13 @@ export default function PerformancePage() {
                 </div>
               </div>
               {r.managerRemarks && (
-                <div className="p-3 rounded-xl bg-muted/30 border border-white/5">
+                <div className="p-3 rounded-2xl bg-muted/30 border border-white/5">
                   <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Manager Remarks</p>
                   <p className="text-sm">{r.managerRemarks}</p>
                 </div>
               )}
               {r.goals && (
-                <div className="p-3 rounded-xl bg-muted/30 border border-white/5">
+                <div className="p-3 rounded-2xl bg-muted/30 border border-white/5">
                   <p className="text-xs font-bold text-muted-foreground uppercase mb-1 flex items-center gap-1"><Target className="w-3 h-3" /> Goals</p>
                   <p className="text-sm">{r.goals}</p>
                 </div>

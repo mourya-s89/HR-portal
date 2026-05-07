@@ -40,12 +40,12 @@ export default function WorkUpdatesPage() {
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
-        <h1 className="text-3xl font-bold gradient-text">Daily Work Updates</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#111827] tracking-tight font-extrabold">Daily Work Updates</h1>
         <p className="text-muted-foreground mt-1">Submit your end-of-day work summary. Helps your team and manager track progress.</p>
       </div>
 
       {/* Today form */}
-      <div className="glass-card rounded-3xl p-8 border border-white/5">
+      <div className=" rounded-3xl p-8 border border-white/5">
         <div className="flex items-center gap-3 mb-6">
           <ClipboardList className="w-5 h-5 text-indigo-400" />
           <h2 className="text-lg font-bold">Today&apos;s Update</h2>
@@ -56,7 +56,7 @@ export default function WorkUpdatesPage() {
             <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Tasks Completed *</label>
             <textarea required value={form.tasksCompleted} onChange={e => setForm({...form, tasksCompleted: e.target.value})} rows={4}
               placeholder="• Completed API integration for login module&#10;• Fixed regression bug in dashboard&#10;• Code review for PR #42"
-              className="w-full bg-muted/30 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
+              className="w-full bg-muted/30 border border-white/10 rounded-[24px] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
@@ -64,7 +64,7 @@ export default function WorkUpdatesPage() {
               <div className="relative">
                 <Clock className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
                 <input type="number" min={1} max={24} value={form.hoursSpent} onChange={e => setForm({...form, hoursSpent: +e.target.value})}
-                  className="w-full bg-muted/30 border border-white/10 rounded-2xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                  className="w-full bg-muted/30 border border-white/10 rounded-[24px] pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
               </div>
             </div>
           </div>
@@ -74,29 +74,29 @@ export default function WorkUpdatesPage() {
             </label>
             <textarea value={form.blockers} onChange={e => setForm({...form, blockers: e.target.value})} rows={2}
               placeholder="Any blockers, issues or dependencies holding you back..."
-              className="w-full bg-muted/30 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
+              className="w-full bg-muted/30 border border-white/10 rounded-[24px] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
           </div>
           <div className="space-y-2">
             <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Next Day Plan</label>
             <textarea value={form.nextDayPlan} onChange={e => setForm({...form, nextDayPlan: e.target.value})} rows={2}
               placeholder="What do you plan to work on tomorrow?"
-              className="w-full bg-muted/30 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
+              className="w-full bg-muted/30 border border-white/10 rounded-[24px] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
           </div>
           <button type="submit" disabled={loading}
-            className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold shadow-lg shadow-indigo-600/20 hover:opacity-90 transition-all active:scale-95 disabled:opacity-60">
+            className="w-full py-4 rounded-[24px] bg-gradient-to-r from-[#1E6DEB] to-blue-600 text-white font-bold shadow-lg shadow-indigo-600/20 hover:opacity-90 transition-all active:scale-95 disabled:opacity-60">
             {loading ? "Saving..." : todaySubmitted ? "Update Today\'s Log" : "Submit Daily Update"}
           </button>
         </form>
       </div>
 
       {/* Timeline */}
-      <div className="glass-card rounded-3xl p-8 border border-white/5 space-y-6">
+      <div className=" rounded-3xl p-8 border border-white/5 space-y-6">
         <h2 className="text-lg font-bold">Update History</h2>
         <div className="space-y-4">
           {updates.map((u, i) => (
             <div key={i} className="flex gap-4">
               <div className="flex flex-col items-center">
-                <div className="w-3 h-3 rounded-full bg-indigo-500 mt-1 shrink-0" />
+                <div className="w-3 h-3 rounded-full bg-[#1E6DEB] mt-1 shrink-0" />
                 {i < updates.length-1 && <div className="w-0.5 flex-1 bg-white/5 mt-1" />}
               </div>
               <div className="flex-1 pb-6">

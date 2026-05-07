@@ -77,31 +77,43 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8 animate-fade-in-up pb-12">
       {/* Top Hero Section */}
-      <div className="relative rounded-[32px] bg-white p-8 md:p-12 border border-slate-200/60 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-indigo-400 via-purple-300 to-cyan-300 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/3 animate-pulse" style={{ animationDuration: '8s' }} />
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-sky-300 to-indigo-200 blur-[80px] rounded-full translate-y-1/3 -translate-x-1/4" />
-        </div>
+      <div className="relative overflow-hidden bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-col">
+        {/* Subtle grid pattern background */}
+        <div 
+          className="absolute inset-0 pointer-events-none opacity-[0.3]" 
+          style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #cbd5e1 1px, transparent 0)', backgroundSize: '32px 32px' }} 
+        />
         
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-          <div className="space-y-3">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
-              {greeting}, <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500">Administration Dashboard</span>
-            </h1>
-            <p className="text-slate-600 font-semibold md:text-base flex items-center gap-2 mt-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              Real-time workforce overview and management controls.
-            </p>
-          </div>
-          <div className="hidden lg:flex items-center gap-4">
-             <div className="px-5 py-3 rounded-2xl bg-slate-50 border border-slate-100 shadow-sm">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Team Size</p>
-                <p className="text-2xl font-black text-slate-800">{stats.totalEmployees || 0}</p>
+        <div className="relative z-10 p-8 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="space-y-4">
+             <div className="flex items-center gap-3">
+               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-semibold">
+                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                 Live Systems Active
+               </span>
+               <span className="text-sm font-medium text-slate-400">{greeting}</span>
              </div>
-             <div className="px-5 py-3 rounded-2xl bg-indigo-600 border border-indigo-500 shadow-lg shadow-indigo-200">
-                <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-widest">Active Today</p>
-                <p className="text-2xl font-black text-white">{stats.presentToday || 0}</p>
+
+             <div>
+               <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+                 Administration Dashboard
+               </h1>
+               <p className="text-slate-500 text-sm md:text-base mt-2 max-w-lg">
+                 Real-time workforce overview and management controls.
+               </p>
+             </div>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-3">
+             <div className="flex flex-col justify-center px-6 py-4 bg-white border border-slate-200 shadow-sm rounded-2xl min-w-[120px]">
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Team Size</span>
+                <span className="text-3xl font-bold text-slate-900 leading-none">{stats.totalEmployees || 0}</span>
+             </div>
+             
+             <div className="flex flex-col justify-center px-6 py-4 bg-slate-900 shadow-md rounded-2xl min-w-[120px] relative overflow-hidden group">
+                <div className="absolute -right-6 -top-6 w-20 h-20 rounded-full bg-slate-800 transition-transform duration-500 group-hover:scale-125" />
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1 relative z-10">Active Today</span>
+                <span className="text-3xl font-bold text-white leading-none relative z-10">{stats.presentToday || 0}</span>
              </div>
           </div>
         </div>
@@ -155,7 +167,7 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Pending Approvals */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm relative overflow-hidden flex flex-col">
+        <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm relative overflow-hidden flex flex-col h-full">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-lg font-extrabold text-slate-900 flex items-center gap-3">
               <span className="p-2.5 bg-rose-50 rounded-[14px]"><AlertTriangle className="w-5 h-5 text-rose-500"/></span>
@@ -250,40 +262,44 @@ export default function AdminDashboard() {
 
         {/* Communication Hub */}
         <div className="bg-white/80 backdrop-blur-xl rounded-[32px] p-8 border border-slate-200/60 shadow-sm flex flex-col h-full relative overflow-hidden group hover:border-indigo-200 transition-colors duration-500">
-          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 via-blue-500 to-green-500 opacity-80 group-hover:opacity-100 transition-opacity" />
-          
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-lg font-extrabold text-slate-900">Communication</h2>
             <span className="px-3 py-1 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-[10px] text-[10px] font-black uppercase tracking-widest">Connected</span>
           </div>
 
-          <div className="space-y-4">
-            <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-red-200 hover:shadow-lg transition-all group/item">
-              <div className="p-2.5 bg-red-50 text-red-500 rounded-xl group-hover/item:bg-red-500 group-hover/item:text-white transition-all">
-                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-bold text-slate-800">Gmail</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Check Inbox</p>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover/item:text-red-500 transition-all"/>
-            </a>
+          <div className="space-y-3">
+             <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group">
+                <div className="w-10 h-10 shadow-sm rounded border border-slate-100 flex items-center justify-center bg-white p-2">
+                   <img src="/images/google/gmail.png" alt="Gmail" className="w-full h-full object-contain" />
+                </div>
+                <div className="flex-1">
+                   <p className="text-[14px] font-semibold text-slate-900 leading-none mb-1">Gmail</p>
+                   <p className="text-[12px] text-slate-500">Check your inbox</p>
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-slate-400 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"/>
+             </a>
 
-            <a href="https://chat.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-blue-200 hover:shadow-lg transition-all group/item">
-              <div className="p-2.5 bg-blue-50 text-blue-500 rounded-xl group-hover/item:bg-blue-500 group-hover/item:text-white transition-all">
-                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L22 4l-2.5 7.5z"/></svg>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-bold text-slate-800">Google Chat</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Team Chat</p>
-              </div>
-              <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover/item:text-blue-500 transition-all"/>
-            </a>
+             <a href="https://chat.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group">
+                <div className="w-10 h-10 shadow-sm rounded border border-slate-100 flex items-center justify-center bg-white p-2">
+                   <img src="/images/google/gchat.png" alt="Google Chat" className="w-full h-full object-contain" />
+                </div>
+                <div className="flex-1">
+                   <p className="text-[14px] font-semibold text-slate-900 leading-none mb-1">Google Chat</p>
+                   <p className="text-[12px] text-slate-500">Message the team</p>
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-slate-400 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"/>
+             </a>
 
-            <a href="https://meet.google.com" target="_blank" rel="noopener noreferrer" className="w-full py-3.5 mt-2 rounded-2xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-200">
-              <Video className="w-4 h-4" />
-              Start Google Meet
-            </a>
+             <a href="https://meet.google.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all group">
+                <div className="w-10 h-10 shadow-sm rounded border border-slate-100 flex items-center justify-center bg-white p-2">
+                   <img src="/images/google/gmeet.png" alt="Google Meet" className="w-full h-full object-contain" />
+                </div>
+                <div className="flex-1">
+                   <p className="text-[14px] font-semibold text-slate-900 leading-none mb-1">Google Meet</p>
+                   <p className="text-[12px] text-slate-500">Start video conference</p>
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-slate-400 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"/>
+             </a>
           </div>
         </div>
       </div>
