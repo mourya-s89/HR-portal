@@ -72,9 +72,9 @@ export async function POST(req: Request) {
       const hrUsers = await User.find({ role: { $in: ["Admin", "HR"] } }).select("_id");
       sharedWith = hrUsers.map(u => u._id.toString());
     } else if (shareMode === "Team") {
-      const team = await Team.findOne({ members: session.user.id });
+      const team = await Team.findOne({ members: (session.user as any).id });
       if (team) {
-        sharedWith = [...team.members.map(m => m.toString()), team.managerId.toString()];
+        sharedWith = [...team.members.map((m: any) => m.toString()), team.managerId.toString()];
       }
     } else if (shareMode === "Specific") {
       sharedWith = specificIds;

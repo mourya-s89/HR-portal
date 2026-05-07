@@ -101,16 +101,17 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (token) {
-        (session.user as any).id = token.id;
-        (session.user as any).role = token.role;
-        (session.user as any).employeeId = token.employeeId;
-        (session.user as any).department = token.department;
-        (session.user as any).designation = token.designation;
-        (session.user as any).avatar = token.avatar;
-        session.user.name = token.name;
-        session.user.email = token.email;
-        session.user.image = token.picture as string;
+      if (token && session.user) {
+        const u = session.user as any;
+        u.id = token.id;
+        u.role = token.role;
+        u.employeeId = token.employeeId;
+        u.department = token.department;
+        u.designation = token.designation;
+        u.avatar = token.avatar;
+        u.name = token.name;
+        u.email = token.email;
+        u.image = token.picture as string;
       }
       console.log("Session Callback - User Image URL:", session.user?.image ? "Found" : "Not Found");
       return session;

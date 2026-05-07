@@ -227,7 +227,7 @@ export default function DocumentsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((doc, i) => {
-            const isOwner = doc.userId?._id === session?.user?.id || doc.userId === session?.user?.id;
+            const isOwner = doc.userId?._id === (session?.user as any)?.id || doc.userId === (session?.user as any)?.id;
             return (
               <div key={i} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
                 <div className="flex items-start justify-between gap-4 mb-6">
@@ -299,7 +299,7 @@ export default function DocumentsPage() {
             </div>
 
             <div className="max-h-[400px] overflow-y-auto pr-2 space-y-2">
-               {availableUsers.filter(u => u._id !== session?.user?.id).map(user => (
+               {availableUsers.filter(u => u._id !== (session?.user as any)?.id).map(user => (
                  <button 
                    key={user._id}
                    type="button"
